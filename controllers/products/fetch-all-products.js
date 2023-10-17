@@ -31,9 +31,8 @@ const getAllProducts = async (req, res) => {
       products,
     });
   } catch (error) {
-    // Send an internal server error response
     res.status(500).json({
-      message: "Oops! An internal server error occurred.",
+      message: `Oops! An internal server error occurred.${error.message}`
     });
   }
 };

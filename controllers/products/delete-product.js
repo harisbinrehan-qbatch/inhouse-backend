@@ -1,23 +1,24 @@
-import ProductModel from '../../models/product';
+import ProductModel from "../../models/product";
 
 const DeleteProduct = async (req, res) => {
   try {
-    const {_id} = req.query;
-    const product = await ProductModel.findOne({ _id });
+    const { _id } = req.query;
+    const product = await ProductModel.deleteOne({ _id });
 
     if (product.deletedCount === 1) {
-      res.status(200).json('Product deleted successfully');
+      return res.status(200).json({
+        message: "Product deleted successfully",
+      });
     } else {
-      res.status(404).json('Product Not Found or Deletion Failed');
+      return res.status(404).json({
+        message: "Product not found or deletion failed.",
+      });
     }
   } catch (error) {
-    console.error('Error in Deleting Product:', error);
-    res
-      .status(500)
-      .json({
-        error: `Internal server error in deleting products ${error.message}`,
-      });
+    res.status(500).json({
+      message: `Oops! An internal server error occurred.${error.message}`,
+    });
   }
 };
 
-export default DeleteProduct ;
+export default DeleteProduct;
