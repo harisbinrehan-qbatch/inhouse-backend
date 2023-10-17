@@ -20,9 +20,7 @@ const EditProduct = async (req, res) => {
       message: 'Product updated successfully.',
     });
   } catch (error) {
-    return res.status(500).json({
-      message: 'An error occurred while updating the product.',
-    });
+    console.log("Hi", error);
   }
 };
 
