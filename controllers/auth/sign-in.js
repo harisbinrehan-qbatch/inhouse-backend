@@ -14,7 +14,7 @@ export const SignIn = async (req, res) => {
     }
 
     const result = await userModel.findOne({ username });
-
+    
     if (result) {
       const isPasswordValid = await bcrypt.compare(password, result.password);
 
@@ -25,6 +25,7 @@ export const SignIn = async (req, res) => {
           email: result.email,
           token: token,
           mobile: result.mobile,
+          isAdmin: result.isAdmin,
           image: result.image,
         });
       } else {

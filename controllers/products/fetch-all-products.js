@@ -1,13 +1,20 @@
-import productModel from "../../models/product";
+import productModel from '../../models/product';
 
-export const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res) => {
   try {
-    const { limit, skip } = req.query;
+    const { limit, skip, name } = req.query;
     const limitValue = parseInt(limit) || 10;
     const skipValue = parseInt(skip) || 0;
 
+    const selector = {};
+    
+    if (name){
+      const regex = new RegExp('^' + name, 'i');
+      selector.name = { $regex: regex };
+    }
+
     const products = await productModel
-      .find({})
+      .find(selector)
       .skip(skipValue)
       .limit(limitValue);
 
@@ -15,9 +22,9 @@ export const getAllProducts = async (req, res) => {
       products: products,
     });
   } catch (error) {
-    console.error("Error retrieving products:", error);
+    console.error('Error retrieving products:', error);
     res.status(500).json({
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
