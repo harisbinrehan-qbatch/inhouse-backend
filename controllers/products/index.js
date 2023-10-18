@@ -1,6 +1,11 @@
 import AddProduct from './add-product';
 import FetchAllProducts from './fetch-all-products';
 import DeleteProduct from './delete-product';
-import EditProduct from './edit-product';
+import UpdateProduct from './update-product'
 
-export { AddProduct, FetchAllProducts, DeleteProduct, EditProduct };
+export {
+  AddProduct,
+  FetchAllProducts,
+  DeleteProduct,
+  UpdateProduct,
+};

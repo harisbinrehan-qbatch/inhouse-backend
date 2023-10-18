@@ -1,4 +1,4 @@
-import productModel from "../../models/product";
+import productModel from '../../models/product';
 
 const getAllProducts = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ const getAllProducts = async (req, res) => {
     const selector = {};
 
     if (name) {
-      const regex = new RegExp("^" + name, "i");
+      const regex = new RegExp('^' + name, 'i');
       selector.name = { $regex: regex };
     }
 
@@ -21,8 +21,8 @@ const getAllProducts = async (req, res) => {
     // Check if the number of products found is 0
     if (products.length === 0) {
       // Return a response with the message "no products found"
-      return res.status(200).json({
-        message: "No products found.",
+      return res.status(404).json({
+        message: 'No products found.',
       });
     }
 

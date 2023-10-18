@@ -1,4 +1,4 @@
-import ProductModel from "../../models/product";
+import ProductModel from '../../models/product';
 
 const DeleteProduct = async (req, res) => {
   try {
@@ -7,11 +7,11 @@ const DeleteProduct = async (req, res) => {
 
     if (product.deletedCount === 1) {
       return res.status(200).json({
-        message: "Product deleted successfully",
+        message: 'Product deleted successfully',
       });
     } else {
       return res.status(404).json({
-        message: "Product not found or deletion failed.",
+        message: 'Product not found or deletion failed.',
       });
     }
   } catch (error) {

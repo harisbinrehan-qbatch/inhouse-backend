@@ -4,7 +4,7 @@ const SearchProducts = async (req, res) => {
   try {
     const { name } = req.query;
     if (!name) {
-      return res.status(400).json({
+      return res.status(404).json({
         message: 'Name parameter is required for searching products.',
       });
     }
