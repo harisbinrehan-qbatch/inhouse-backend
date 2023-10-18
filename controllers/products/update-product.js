@@ -3,17 +3,38 @@ import productModel from '../../models/product';
 const UpdateProduct = async (req, res) => {
   try {
     const { _id, ...productData } = req.body;
-    console.log('The id is', _id, req.body);
-    const product = await productModel.findByIdAndUpdate({ _id }, productData);
 
-    if (product === null) {
+    const existingProduct = await productModel.findById(_id);
+
+    if (existingProduct === null) {
       return res.status(404).json({
         message: 'Product not found.',
       });
     }
 
+    if (productData.name !== '') {
+      existingProduct.name = productData.name;
+    }
+    if (productData.size !== '') {
+      existingProduct.size = productData.size;
+    }
+    if (productData.price !== '') {
+      existingProduct.price = productData.price;
+    }
+    if (productData.color !== '') {
+      existingProduct.color = productData.color;
+    }
+    if (productData.quantity !== '') {
+      existingProduct.quantity = productData.quantity;
+    }
+
+    // Save the updated product
+    await existingProduct.save();
+    const allProducts = await productModel.find({});
+    
     return res.status(200).json({
       message: 'Product updated successfully.',
+      products: allProducts,
     });
   } catch (error) {
     res.status(500).json({

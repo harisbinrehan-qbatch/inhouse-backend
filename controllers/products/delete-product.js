@@ -3,11 +3,16 @@ import ProductModel from '../../models/product';
 const DeleteProduct = async (req, res) => {
   try {
     const { _id } = req.query;
-    const product = await ProductModel.deleteOne({ _id });
 
-    if (product.deletedCount === 1) {
+    // Delete the specified product
+    const deletionResult = await ProductModel.deleteOne({ _id });
+
+    if (deletionResult.deletedCount === 1) {
+      const allProducts = await ProductModel.find({});
+
       return res.status(200).json({
         message: 'Product deleted successfully',
+        products: allProducts, 
       });
     } else {
       return res.status(404).json({
