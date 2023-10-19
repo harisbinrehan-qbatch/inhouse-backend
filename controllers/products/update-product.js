@@ -31,7 +31,7 @@ const UpdateProduct = async (req, res) => {
     // Save the updated product
     await existingProduct.save();
     const allProducts = await productModel.find({});
-    
+
     return res.status(200).json({
       message: 'Product updated successfully.',
       products: allProducts,
