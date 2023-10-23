@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-
 import userModel from '../../models/user';
 import { GenerateToken } from '../../middlewares/auth';
 
@@ -14,13 +13,14 @@ export const SignIn = async (req, res) => {
     }
 
     const result = await userModel.findOne({ username });
-    
+
     if (result) {
       const isPasswordValid = await bcrypt.compare(password, result.password);
 
       if (isPasswordValid) {
         const token = GenerateToken(result);
         res.status(200).json({
+          userId: result._id, // Include the user ID in the response
           username: username,
           email: result.email,
           token: token,
