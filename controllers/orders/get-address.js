@@ -4,7 +4,6 @@ const GetAddress = async (req, res) => {
   try {
     const { userId } = req.query;
 
-    console.log('API GetAddress', userId);
     const addresses = await AddressModel.find({ userId });
 
     res.status(200).json({ addresses });

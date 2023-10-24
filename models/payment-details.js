@@ -1,14 +1,28 @@
-// products.model.js
-
 import mongoose from 'mongoose';
 
 const PaymentDetailsSchema = new mongoose.Schema({
-  paymentDetails: {
-    type: Array,
+  userId: {
+    type: String,
+    required: true,
+  },
+  cardNumber: {
+    type: String,
+    required: true,
+  },
+  expiryDate: {
+    type: String,
+    required: true,
+  },
+  cvc: {
+    type: String,
+    required: true,
+  },
+  cardholderName: {
+    type: String,
     required: true,
   },
 });
 
-const PaymentDetailsModel = mongoose.model('payment', PaymentDetailsSchema);
+const PaymentDetailsModel = mongoose.model('Payments',PaymentDetailsSchema);
 
 export default PaymentDetailsModel;

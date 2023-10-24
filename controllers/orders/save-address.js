@@ -3,7 +3,6 @@ import AddressModel from '../../models/address';
 const SaveAddress = async (req, res) => {
   try {
     const { userId, ...addressInfo } = req.body;
-    console.log('adress info arree,  ', addressInfo);
 
     const existingAddress = await AddressModel.findOne({ userId });
 
