@@ -1,16 +1,28 @@
+
 import productModel from '../../models/product';
+
 
 const AddProduct = async (req, res) => {
   try {
-    const { name, size, color, price, quantity } = req.body;
+    const images = [];
+    if (req.files && Array.isArray(req.files)) {
+      req.files.forEach((singleFile) => {
+        if (singleFile.path) {
+          images.push(singleFile.path);
+        }
+      });
+    }
 
+    const { name, size, color, price, quantity } = req.body.obj;
     const newProduct = new productModel({
       name,
       size,
       color,
       price,
       quantity,
+      images
     });
+    console.log('new ppp', newProduct);
 
     await newProduct.save();
 
