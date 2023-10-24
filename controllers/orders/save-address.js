@@ -2,18 +2,24 @@ import AddressModel from '../../models/address';
 
 const SaveAddress = async (req, res) => {
   try {
-    const { userId, address } = req.body;
+    const { userId, ...addressInfo } = req.body;
+    console.log('adress info arree,  ', addressInfo);
 
     const existingAddress = await AddressModel.findOne({ userId });
 
     if (existingAddress) {
-      existingAddress.addresses.push(address);
-      await existingAddress.save();
+      const existingAddressInfo = existingAddress.addressInfo.find(
+        (address) => JSON.stringify(address) === JSON.stringify(addressInfo)
+      );
+
+      if (!existingAddressInfo) {
+        existingAddress.addressInfo.push(addressInfo);
+        await existingAddress.save();
+      }
     } else {
-      // User ID doesn't exist, create a new document
       const newAddress = new AddressModel({
         userId,
-        addresses: [address],
+        addressInfo: [addressInfo],
       });
       await newAddress.save();
     }

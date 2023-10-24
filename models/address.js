@@ -1,5 +1,4 @@
 // products.model.js
-
 import mongoose from 'mongoose';
 
 const AddressSchema = new mongoose.Schema({
@@ -7,10 +6,17 @@ const AddressSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  addresses: {
-    type: Array,
-    required: true,
-  },
+  addressInfo: [
+    {
+      name: String,
+      mobile: String,
+      country: String,
+      province: String,
+      city: String,
+      address: String,
+      isDefault: Boolean,
+    },
+  ],
 });
 
 const AddressModel = mongoose.model('addresses', AddressSchema);
