@@ -5,6 +5,7 @@ import UpdateDefaultAddress from './update-default-address';
 import SavePaymentDetails from './save-payment-details';
 import GetPaymentDetails from './get-payment-details';
 import GetAllOrders from './get-orders';
+import SetOrderAsDelivered from './set-isDelivered';
 
 export {
   PlaceOrder,
@@ -14,4 +15,5 @@ export {
   SavePaymentDetails,
   GetPaymentDetails,
   GetAllOrders,
+  SetOrderAsDelivered,
 };

@@ -2,11 +2,12 @@ import OrderModel from '../../models/order';
 
 const PlaceOrder = async (req, res) => {
 try {
-    const { userId, products, orderSummary } = req.body;
+    const { username, userId, products, orderSummary } = req.body;
 
 
     // console.log('In backend with data', req.body);
 const newOrder = new OrderModel({
+    username,
     userId,
     products,
     subTotal: orderSummary.subTotal,

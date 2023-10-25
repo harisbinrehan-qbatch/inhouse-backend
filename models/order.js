@@ -7,6 +7,10 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  username: {
+    type: String,
+    required: true,
+  },
   products: {
     type: Array,
     required: true,
@@ -22,6 +26,18 @@ const OrderSchema = new mongoose.Schema({
   total: {
     type: String,
     required: true,
+  },
+  isPaid: {
+    type: Boolean,
+    default: true,
+  },
+  isDelivered: {
+    type: Boolean,
+    default: false,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
   },
 });
 
