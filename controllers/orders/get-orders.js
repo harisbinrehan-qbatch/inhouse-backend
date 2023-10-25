@@ -2,20 +2,37 @@ import OrderModel from '../../models/order';
 
 const GetAllOrders = async (req, res) => {
   try {
-    // Retrieve all orders from the database
+    const { orderId } = req.query;
+    let searchedOrders = [];
+    const results = [];
+console.log('hjdsfbjsdkfj', orderId);
+
     const orders = await OrderModel.find();
 
-    // Check if the number of orders found is 0
-    if (orders.length === 0) {
-      // Return a response with the message "no orders found"
+      if (orders.length > 0) {
+        results.push(...orders);
+      }
+    if (orderId) {
+      const regex = new RegExp(orderId, 'i');
+      searchedOrders = await OrderModel.find({
+        orderId: { $regex: regex },
+      });
+
+      if (searchedOrders.length > 0) {
+        console.log('IMPORTANT ')
+        searchedOrders.push(...searchedOrders);
+      }
+
+    if (results.length === 0) {
       return res.status(404).json({
         message: 'No orders found.',
+        searchedOrders: null,
       });
     }
-
-    // Return a response with the orders
-    res.status(200).json({
-      orders,
+    }
+    return res.status(200).json({
+      searchedOrders: searchedOrders.length > 0 ? searchedOrders : null, 
+      orders: results,
     });
   } catch (error) {
     res.status(500).json({

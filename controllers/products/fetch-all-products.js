@@ -5,6 +5,7 @@ const getAllProducts = async (req, res) => {
     const { limit, skip, name } = req.query;
     const limitValue = parseInt(limit);
     const skipValue = parseInt(skip) || 0;
+    console.log('bhjhsdfkjsdj', limit, skip, name);
     const selector = {};
 
     if (name) {
@@ -18,7 +19,8 @@ const getAllProducts = async (req, res) => {
         .skip(skipValue)
         .limit(limitValue);
     }else{
-        products = await productModel.find(selector);
+        products = await productModel
+        .find(selector)
     }
 
     // Check if the number of products found is 0

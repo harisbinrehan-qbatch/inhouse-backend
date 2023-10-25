@@ -3,10 +3,10 @@
 import mongoose from 'mongoose';
 
 const OrderSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
-  },
+  // userId: {
+  //   type: String,
+  //   required: true,
+  // },
   username: {
     type: String,
     required: true,
@@ -39,7 +39,14 @@ const OrderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  orderId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 });
+
+OrderSchema.index({ orderId: 'text' }, { name: 'text_index' });
 
 const OrderModel = mongoose.model('orders', OrderSchema);
 
