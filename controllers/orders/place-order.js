@@ -4,6 +4,8 @@ const PlaceOrder = async (req, res) => {
 try {
     const { userId, products, orderSummary } = req.body;
 
+
+    // console.log('In backend with data', req.body);
 const newOrder = new OrderModel({
     userId,
     products,

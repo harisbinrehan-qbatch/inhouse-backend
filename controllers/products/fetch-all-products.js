@@ -3,20 +3,23 @@ import productModel from '../../models/product';
 const getAllProducts = async (req, res) => {
   try {
     const { limit, skip, name } = req.query;
-    const limitValue = parseInt(limit) || 10;
+    const limitValue = parseInt(limit);
     const skipValue = parseInt(skip) || 0;
-
     const selector = {};
 
     if (name) {
       const regex = new RegExp('^' + name, 'i');
       selector.name = { $regex: regex };
     }
-
-    const products = await productModel
-      .find(selector)
-      .skip(skipValue)
-      .limit(limitValue);
+    let products;
+    if (limit) {
+      products = await productModel
+        .find(selector)
+        .skip(skipValue)
+        .limit(limitValue);
+    }else{
+        products = await productModel.find(selector);
+    }
 
     // Check if the number of products found is 0
     if (products.length === 0) {
@@ -32,7 +35,7 @@ const getAllProducts = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: `Oops! An internal server error occurred.${error.message}`
+      message: `Oops! An internal server error occurred.${error.message}`,
     });
   }
 };
