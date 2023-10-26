@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import passport from 'passport';
 
 import {
   AddProduct,
@@ -19,9 +20,29 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-router.post('/addProduct', upload.any() ,AddProduct);
-router.get('/fetchProducts', FetchAllProducts);
-router.delete('/deleteProduct', DeleteProduct);
-router.put('/updateProduct', UpdateProduct);
+
+router.get(
+  '/fetchProducts',
+  FetchAllProducts
+);
+
+router.post(
+  '/addProduct',
+  passport.authenticate('jwt', { session: false }),
+  upload.any(),
+  AddProduct
+);
+
+router.delete(
+  '/deleteProduct',
+  passport.authenticate('jwt', { session: false }),
+  DeleteProduct
+);
+
+router.put(
+  '/updateProduct',
+  passport.authenticate('jwt', { session: false }),
+  UpdateProduct
+);
 
 export default router;

@@ -3,24 +3,22 @@
 import mongoose from 'mongoose';
 
 const OrderSchema = new mongoose.Schema({
-  // userId: {
-  //   type: String,
-  //   required: true,
-  // },
+  userId: {
+    type: String,
+    required: true,
+  },
+
+  orderId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   username: {
     type: String,
     required: true,
   },
   products: {
     type: Array,
-    required: true,
-  },
-  subTotal: {
-    type: String,
-    required: true,
-  },
-  tax: {
-    type: String,
     required: true,
   },
   total: {
@@ -38,11 +36,6 @@ const OrderSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now,
-  },
-  orderId: {
-    type: String,
-    required: true,
-    unique: true,
   },
 });
 

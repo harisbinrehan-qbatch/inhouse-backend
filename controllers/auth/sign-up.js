@@ -1,28 +1,19 @@
 import bcrypt from 'bcrypt';
-
 import userModel from '../../models/user';
 
 const SignUp = async (req, res) => {
   try {
-    const {
-      username,
-      email,
-      password,
-      mobile
-      } = req.body;
+    const { username, email, password, mobile } = req.body;
 
-    if (!username || !password) {
+    if (!username || !password || !email) {
       return res.status(400).json({
-        message: 'Username or password cannot be empty',
+        message: 'Username, email, and password cannot be empty',
       });
     }
-    
-    const existingUser = await userModel.findOne({ username });
-
-    if (existingUser) {
-      return res.status(400).json({ message: 'Username already exists' });
+    const existingUserWithEmail = await userModel.findOne({ email });
+    if (existingUserWithEmail) {
+      return res.status(400).json({ message: 'Email already exists' });
     }
-
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 

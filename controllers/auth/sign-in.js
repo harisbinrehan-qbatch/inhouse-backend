@@ -4,24 +4,24 @@ import { GenerateToken } from '../../middlewares/auth';
 
 export const SignIn = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
+    if (!email || !password) {
       return res.status(400).json({
-        message: 'Username or password cannot be empty',
+        message: 'Email or password cannot be empty',
       });
     }
 
-    const result = await userModel.findOne({ username });
+    const result = await userModel.findOne({ email });
 
     if (result) {
       const isPasswordValid = await bcrypt.compare(password, result.password);
 
       if (isPasswordValid) {
-        const token = GenerateToken(result);
+        const token = GenerateToken(email);
         res.status(200).json({
-          userId: result._id, // Include the user ID in the response
-          username: username,
+          username: result.username,
+          userId: result._id,
           email: result.email,
           token: token,
           mobile: result.mobile,

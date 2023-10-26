@@ -6,7 +6,7 @@ const AddProduct = async (req, res) => {
     if (req.files && Array.isArray(req.files)) {
       req.files.forEach((singleFile) => {
         if (singleFile.path) {
-          images.push(singleFile.path);
+          images.push(singleFile.filename);
         }
       });
     }

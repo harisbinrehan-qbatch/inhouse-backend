@@ -1,5 +1,5 @@
 import express from 'express';
-import { GetAddress, GetPaymentDetails, PlaceOrder } from '../controllers/orders';
+import { GetAddress, GetOrderStats, GetPaymentDetails, PlaceOrder } from '../controllers/orders';
 import saveAddress from '../controllers/orders/save-address';
 import UpdateDefaultAddress from '../controllers/orders/update-default-address';
 import SavePaymentDetails from '../controllers/orders/save-payment-details';
@@ -16,5 +16,6 @@ router.post('/paymentDetails', SavePaymentDetails);
 router.get('/GetPaymentDetails', GetPaymentDetails);
 router.get('/getOrders', GetAllOrders);
 router.put('/setIsDelivered', SetOrderAsDelivered);
+router.get('/getOrderStats', GetOrderStats);
 
 export default router;
