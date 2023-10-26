@@ -1,6 +1,4 @@
-
 import productModel from '../../models/product';
-
 
 const AddProduct = async (req, res) => {
   try {
@@ -20,9 +18,8 @@ const AddProduct = async (req, res) => {
       color,
       price,
       quantity,
-      images
+      images,
     });
-    console.log('new ppp', newProduct);
 
     await newProduct.save();
 

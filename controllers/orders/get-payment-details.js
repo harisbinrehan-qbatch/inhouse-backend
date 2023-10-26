@@ -6,7 +6,6 @@ const GetPaymentDetails = async (req, res) => {
 
     const payments = await PaymentDetailsSchema.find({ userId });
 
-    // console.log(payments.name);
     res.status(200).json({ payments });
   } catch (error) {
     console.error('Error retrieving payment details', error);

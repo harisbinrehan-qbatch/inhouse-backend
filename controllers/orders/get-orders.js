@@ -5,13 +5,12 @@ const GetAllOrders = async (req, res) => {
     const { orderId } = req.query;
     let searchedOrders = [];
     const results = [];
-console.log('hjdsfbjsdkfj', orderId);
 
     const orders = await OrderModel.find();
 
-      if (orders.length > 0) {
-        results.push(...orders);
-      }
+    if (orders.length > 0) {
+      results.push(...orders);
+    }
     if (orderId) {
       const regex = new RegExp(orderId, 'i');
       searchedOrders = await OrderModel.find({
@@ -19,19 +18,19 @@ console.log('hjdsfbjsdkfj', orderId);
       });
 
       if (searchedOrders.length > 0) {
-        console.log('IMPORTANT ')
+        console.log('IMPORTANT ');
         searchedOrders.push(...searchedOrders);
       }
 
-    if (results.length === 0) {
-      return res.status(404).json({
-        message: 'No orders found.',
-        searchedOrders: null,
-      });
-    }
+      if (results.length === 0) {
+        return res.status(404).json({
+          message: 'No orders found.',
+          searchedOrders: null,
+        });
+      }
     }
     return res.status(200).json({
-      searchedOrders: searchedOrders.length > 0 ? searchedOrders : null, 
+      searchedOrders: searchedOrders.length > 0 ? searchedOrders : null,
       orders: results,
     });
   } catch (error) {

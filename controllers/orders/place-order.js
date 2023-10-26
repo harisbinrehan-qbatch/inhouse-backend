@@ -4,9 +4,6 @@ const PlaceOrder = async (req, res) => {
   try {
     const { username, userId, products, orderSummary } = req.body;
 
-    console.log('In backend with data', req.body);
-
-    // Generate a unique order ID (you can customize this as needed)
     const orderId = generateOrderId();
 
     const newOrder = new OrderModel({
