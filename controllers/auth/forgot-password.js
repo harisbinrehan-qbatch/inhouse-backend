@@ -15,20 +15,17 @@ export const ForgotPassword = async (req, res) => {
     const result = await userModel.findOne({ email });
 
     if (result) {
-        const token = GenerateToken(email);
-        await sendEmail(
-            email,
-            token
-        )
+      const token = GenerateToken(email);
+      await sendEmail(email, token);
+      return res.status(200).send('Email sent successfully');
     } else {
-      res.status(401).json({
-        message: 'User not found',
+      return res.status(401).json({
+        message: 'Invalid email. User not found.',
       });
     }
-    return res.status(200).send('Email send success');
   } catch (error) {
-    console.error('Error signing in:', error);
-    res.status(500).json({
+    console.error('Error sending email:', error);
+    return res.status(500).json({
       message: 'Internal Server Error',
     });
   }

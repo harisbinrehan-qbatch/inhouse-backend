@@ -1,5 +1,3 @@
-// products.model.js
-
 import mongoose from 'mongoose';
 
 const ProductSchema = new mongoose.Schema({
@@ -23,14 +21,14 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  date:{
+  date: {
     type: Date,
-    default:Date.now,
+    default: Date.now,
   },
-  images:{
-      type: Array,
-      required: false,
-    },
+  images: {
+    type: Array,
+    required: false,
+  },
 });
 
 const ProductModel = mongoose.model('products', ProductSchema);

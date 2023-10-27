@@ -38,8 +38,8 @@ Agenda.define(
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
-            totalUnits: { $sum: '$products.length' },
-            totalSales: { $sum: { $toDouble: '$total' } }, // Convert 'total' to a number before summing
+            totalUnits: { $sum: { $toDouble: '$totalProducts' }},
+            totalSales: { $sum: { $toDouble: '$total' } }, 
           },
         },
       ]);
@@ -61,8 +61,8 @@ Agenda.define(
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
-            totalUnits: { $sum: '$products.length' },
-            totalSales: { $sum: { $toDouble: '$total' } }, // Convert 'total' to a number before summing
+            totalUnits: { $sum: { $toDouble: '$totalProducts' }},
+            totalSales: { $sum: { $toDouble: '$total' } }, 
           },
         },
       ]);
@@ -84,8 +84,8 @@ Agenda.define(
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
-            totalUnits: { $sum: '$products.length' },
-            totalSales: { $sum: { $toDouble: '$total' } }, // Convert 'total' to a number before summing
+            totalUnits: { $sum: { $toDouble: '$totalProducts' }},
+            totalSales: { $sum: { $toDouble: '$total' } },
           },
         },
       ]);

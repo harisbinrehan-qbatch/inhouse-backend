@@ -4,6 +4,8 @@ const PlaceOrder = async (req, res) => {
   try {
     const { username, userId, products, orderSummary } = req.body;
 
+    
+
     const orderId = generateOrderId();
 
     const newOrder = new OrderModel({
@@ -11,10 +13,11 @@ const PlaceOrder = async (req, res) => {
       username,
       userId,
       products,
-      subTotal: orderSummary.subTotal,
-      tax: orderSummary.tax,
+      totalProducts: products.length, // Store the total number of products
       total: orderSummary.total,
     });
+
+    console.log('New Order', newOrder);
 
     await newOrder.save();
 

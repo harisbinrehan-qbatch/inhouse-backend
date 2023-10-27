@@ -1,7 +1,6 @@
 import Agenda from 'agenda';
 
-// import { MONGO_URL } from '../config';
-import { MONGO_URL } from '../../config/config'
+import { MONGO_URL } from '../../config/config';
 
 const AgendaJobs = new Agenda({
   db: {

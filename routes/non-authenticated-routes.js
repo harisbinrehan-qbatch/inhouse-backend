@@ -4,7 +4,6 @@ import ScriptMethods from '../script-methods';
 
 const Router = express.Router();
 
-// http://localhost:4000/script?method=StartDashboardJob
 Router.get('/script', async (req, res) => {
   try {
     const { query } = req;

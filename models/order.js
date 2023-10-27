@@ -7,7 +7,6 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
   orderId: {
     type: String,
     required: true,
@@ -19,6 +18,10 @@ const OrderSchema = new mongoose.Schema({
   },
   products: {
     type: Array,
+    required: true,
+  },
+  totalProducts: {
+    type: String,
     required: true,
   },
   total: {
