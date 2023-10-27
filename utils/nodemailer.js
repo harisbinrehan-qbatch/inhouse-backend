@@ -4,11 +4,11 @@ const sendEmail = async (email, token) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    port: 485,
+    secure: false,
     auth: {
       user: 'harisbinrehan@gmail.com',
-      pass: 'ndus pdvl nktm dvcm',
+      pass: 'sioj kqua nzey ybqu',
     },
   });
 
