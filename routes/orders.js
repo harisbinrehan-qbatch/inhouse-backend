@@ -7,6 +7,7 @@ import UpdateDefaultAddress from '../controllers/orders/update-default-address';
 import SavePaymentDetails from '../controllers/orders/save-payment-details';
 import GetAllOrders from '../controllers/orders/get-orders';
 import SetOrderAsDelivered from '../controllers/orders/set-isDelivered';
+import GetAdminOrderStats from '../controllers/orders/get-admin-order-stats';
 
 const router = express.Router();
 
@@ -51,5 +52,8 @@ router.put(
   SetOrderAsDelivered
 );
 router.get('/getOrderStats', GetOrderStats);
+
+router.get('/getAdminOrderStats', GetAdminOrderStats);
+
 
 export default router;

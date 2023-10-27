@@ -4,7 +4,6 @@ import productModel from '../../models/product';
 const getAllProducts = async (req, res) => {
   try {
     const { limit, skip, name, filterObject, search } = req.query;
-    // console.log('filter object isss  ', search);
 
     const limitValue = parseInt(limit) ||100;
     const skipValue = parseInt(skip) || 0;

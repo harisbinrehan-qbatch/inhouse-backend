@@ -7,6 +7,7 @@ import GetPaymentDetails from './get-payment-details';
 import GetAllOrders from './get-orders';
 import SetOrderAsDelivered from './set-isDelivered';
 import GetOrderStats from './get-order-stats'
+import GetAdminOrderStats from './get-admin-order-stats';
 
 export {
   PlaceOrder,
@@ -18,4 +19,5 @@ export {
   GetAllOrders,
   SetOrderAsDelivered,
   GetOrderStats,
+  GetAdminOrderStats,
 };

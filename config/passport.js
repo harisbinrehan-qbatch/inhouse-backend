@@ -11,10 +11,10 @@ const opts = {
   secretOrKey: 'secretKey',
 };
 
+console.log('\n\n', 'jwtPayloasdfnsdjknfjksdnkjgnjsdd');
 passport.use(
   new JwtStrategy(opts, async (jwtPayload, done) => {
     try {
-      console.log('\n\n', 'jwtPayload', jwtPayload);
       const user = await User.findOne({ email: jwtPayload.email });
       if (user) {
         return done(null, user);
