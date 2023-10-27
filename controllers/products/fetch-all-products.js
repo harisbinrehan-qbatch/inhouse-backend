@@ -4,7 +4,7 @@ import productModel from '../../models/product';
 const getAllProducts = async (req, res) => {
   try {
     const { limit, skip, name, filterObject, search } = req.query;
-    console.log('filter object isss  ', search);
+    // console.log('filter object isss  ', search);
 
     const limitValue = parseInt(limit) ||100;
     const skipValue = parseInt(skip) || 0;
@@ -25,7 +25,7 @@ const getAllProducts = async (req, res) => {
        const regex = new RegExp('^' + search, 'i');
        selector.name = { $regex: regex };
      }
-     console.log('selector  ,', selector);
+    //  console.log('selector  ,', selector);
                 const products = await productModel.find(selector).limit(limitValue).
                 skip(skipValue);
 

@@ -6,16 +6,13 @@ export const ForgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    console.log(email);
-
     if (!email) {
       return res.status(400).json({
-        message: 'email cannot be empty',
+        message: 'Email cannot be empty',
       });
     }
 
     const result = await userModel.findOne({ email });
-    console.log('Result', result);
 
     if (result) {
         const token = GenerateToken(email);
