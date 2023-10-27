@@ -4,14 +4,9 @@ const GetAdminOrderStats = async (req, res) => {
   try {
     const orders = await OrderModel.find();
 
-    const units = orders.reduce(
-      (total, order) => total + order.products.length,
-      0
-    );
-    const amount = orders.reduce(
-      (total, order) => total + parseFloat(order.total),
-      0
-    );
+    const units = orders.reduce((total, order) => total + order.products.length, 0);
+    
+    const amount = orders.reduce((total, order) => total + parseFloat(order.total), 0);
 
     return res.status(200).json({
       totalOrders: orders.length,

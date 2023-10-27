@@ -11,7 +11,6 @@ const opts = {
   secretOrKey: 'secretKey',
 };
 
-console.log('\n\n', 'jwtPayloasdfnsdjknfjksdnkjgnjsdd');
 passport.use(
   new JwtStrategy(opts, async (jwtPayload, done) => {
     try {
@@ -19,7 +18,7 @@ passport.use(
       if (user) {
         return done(null, user);
       }
-      return done(null, false); // User not found
+      return done(null, false);
     } catch (error) {
       console.error('Error in JWT strategy:', error);
       return done(error, false);

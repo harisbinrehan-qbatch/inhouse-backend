@@ -3,6 +3,7 @@ import productModel from '../../models/product';
 const AddProduct = async (req, res) => {
   try {
     const images = [];
+
     if (req.files && Array.isArray(req.files)) {
       req.files.forEach((singleFile) => {
         if (singleFile.path) {

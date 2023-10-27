@@ -4,7 +4,6 @@ const DeleteProduct = async (req, res) => {
   try {
     const { _id } = req.query;
 
-    // Delete the specified product
     const deletionResult = await ProductModel.deleteOne({ _id });
 
     if (deletionResult.deletedCount === 1) {

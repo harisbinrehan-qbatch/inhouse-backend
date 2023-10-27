@@ -3,7 +3,7 @@ import OrderModel from '../../models/order';
 const SetOrderAsDelivered = async (req, res) => {
   try {
     const { orderId } = req.query;
-
+    
     const updatedOrder = await OrderModel.findByIdAndUpdate(
       orderId,
       { isDelivered: true },

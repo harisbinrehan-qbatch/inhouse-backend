@@ -3,12 +3,14 @@ import OrderModel from '../../models/order';
 const GetAllOrders = async (req, res) => {
   try {
     const { orderId } = req.query;
+    
     let results = [];
 
     const orders = await OrderModel.find();
 
     if (orderId) {
       const regex = new RegExp(orderId, 'i');
+
       const searchedOrders = orders.filter((order) =>
         regex.test(order.orderId)
       );

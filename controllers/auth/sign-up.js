@@ -10,11 +10,15 @@ const SignUp = async (req, res) => {
         message: 'Username, email, and password cannot be empty',
       });
     }
+
     const existingUserWithEmail = await userModel.findOne({ email });
+
     if (existingUserWithEmail) {
       return res.status(400).json({ message: 'Email already exists' });
     }
+
     const salt = await bcrypt.genSalt(10);
+    
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new userModel({

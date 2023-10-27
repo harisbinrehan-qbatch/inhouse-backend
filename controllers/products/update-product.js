@@ -15,21 +15,25 @@ const UpdateProduct = async (req, res) => {
     if (productData.name !== '') {
       existingProduct.name = productData.name;
     }
+
     if (productData.size !== '') {
       existingProduct.size = productData.size;
     }
+
     if (productData.price !== '') {
       existingProduct.price = productData.price;
     }
+
     if (productData.color !== '') {
       existingProduct.color = productData.color;
     }
+
     if (productData.quantity !== '') {
       existingProduct.quantity = productData.quantity;
     }
 
-    // Save the updated product
     await existingProduct.save();
+    
     const allProducts = await productModel.find({});
 
     return res.status(200).json({

@@ -9,9 +9,11 @@ const ResetPassword = async (req, res) => {
     const newPassword = req.body.newPassword;
 
     const salt = await bcrypt.genSalt(10);
+
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
     await UserSchema.findOneAndUpdate({ email }, { password: hashedPassword });
+    
     res.status(201).json({ message: 'Password reset successfully' });
   } catch (err) {
     console.error('Error resetting password:', err);
