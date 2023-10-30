@@ -13,7 +13,7 @@ const AddressSchema = new mongoose.Schema({
       province: String,
       city: String,
       address: String,
-      isDefault: Boolean,
+      isDefault: Boolean
     },
   ],
 });
