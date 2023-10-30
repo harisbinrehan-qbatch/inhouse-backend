@@ -11,6 +11,15 @@ const dashboardStatSchema = mongoose.Schema(
     thirtyDayStats: {
       type: Object,
     },
+    oneYearStats: {
+      type: Object,
+    },
+    totalPaidOrders: {
+      type: Number,
+    },
+    totalUnpaidOrders: {
+      type: Number,
+    },
   },
   {
     timestamps: true,

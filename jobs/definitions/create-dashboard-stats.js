@@ -26,6 +26,91 @@ Agenda.define(
       job.attrs.progress = 25;
       await job.save();
 
+      const totalPaidOrders = await OrderSchema.aggregate([
+        {
+          $match: {
+            isPaid: true,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+
+      const totalUnpaidOrders = await OrderSchema.aggregate([
+        {
+          $match: {
+            isPaid: false,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+
+      console.log(
+        '\n\n',
+        'TotalPaidOrders and Unpaid',
+        { totalPaidOrders },
+        { totalUnpaidOrders }
+      );
+
+      // Function to calculate one year stats
+      const calculateOneYearStats = async () => {
+        const oneYearStats = [];
+
+        for (let i = 0; i < 12; i++) {
+          const startOfMonth = moment()
+            .subtract(i, 'months')
+            .startOf('month')
+            .toDate();
+          const endOfMonth = moment()
+            .subtract(i, 'months')
+            .endOf('month')
+            .toDate();
+
+          const monthlyStats = await OrderSchema.aggregate([
+            {
+              $match: {
+                date: { $gte: startOfMonth, $lte: endOfMonth },
+              },
+            },
+            {
+              $group: {
+                _id: null,
+                totalOrders: {
+                  $sum: 1,
+                },
+                totalSales: {
+                  $sum: { $toDouble: '$total' },
+                },
+              },
+            },
+          ]);
+
+          oneYearStats.push({
+            month: moment(startOfMonth).format('MMM'),
+            totalOrders: monthlyStats[0]?.totalOrders || 0,
+            totalSales: monthlyStats[0]?.totalSales || 0,
+          });
+        }
+
+        return oneYearStats;
+      };
+
+      const oneYearStats = await calculateOneYearStats();
+
+      console.log('\n\n', 'One Year Stats', { oneYearStats });
+
+      job.attrs.progress = 50;
+      await job.save();
+
       let startDate = moment().startOf('day').toDate();
       let endDate = moment().endOf('day').toDate();
       const todayStats = await OrderSchema.aggregate([
@@ -38,8 +123,8 @@ Agenda.define(
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
-            totalUnits: { $sum: { $toDouble: '$totalProducts' }},
-            totalSales: { $sum: { $toDouble: '$total' } }, 
+            totalUnits: { $sum: { $toDouble: '$totalProducts' } },
+            totalSales: { $sum: { $toDouble: '$total' } },
           },
         },
       ]);
@@ -61,8 +146,8 @@ Agenda.define(
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
-            totalUnits: { $sum: { $toDouble: '$totalProducts' }},
-            totalSales: { $sum: { $toDouble: '$total' } }, 
+            totalUnits: { $sum: { $toDouble: '$totalProducts' } },
+            totalSales: { $sum: { $toDouble: '$total' } },
           },
         },
       ]);
@@ -84,7 +169,7 @@ Agenda.define(
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
-            totalUnits: { $sum: { $toDouble: '$totalProducts' }},
+            totalUnits: { $sum: { $toDouble: '$totalProducts' } },
             totalSales: { $sum: { $toDouble: '$total' } },
           },
         },
@@ -97,10 +182,14 @@ Agenda.define(
       await job.save();
 
       const stat = new DashboardStats({
+        totalPaidOrders: totalPaidOrders[0].count,
+        totalUnpaidOrders: totalUnpaidOrders[0].count,
         todayStats: todayStats[0],
         sevenDayStats: sevenDayStats[0],
         thirtyDayStats: thirtyDayStats[0],
+        oneYearStats,
       });
+
       const total = await DashboardStats.countDocuments();
       if (total > 0) {
         await stat.updateOne({}, { exclude: ['_id'] });
