@@ -32,15 +32,14 @@ const getAllProducts = async (req, res) => {
       };
     }
 
-    // Sort the products based on the "default sorting" value
     let sort = {};
 
-    if (filterObject && filterObject['default sorting'] !== 'none') {
-      if (filterObject['default sorting'] === 'Price low to high') {
+    if (filterObject && filterObject.sorting !== 'none') {
+      if (filterObject.sorting === 'Price low to high') {
         sort = { price: 1 };
-      } else if (filterObject['default sorting'] === 'Price high to low') {
+      } else if (filterObject.sorting === 'Price high to low') {
         sort = { price: -1 };
-      } else if (filterObject['default sorting'] === 'Newest products') {
+      } else if (filterObject.sorting === 'Newest products') {
         sort = { date: -1 };
       }
     }
