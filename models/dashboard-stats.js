@@ -14,6 +14,9 @@ const dashboardStatSchema = mongoose.Schema(
     oneYearStats: {
       type: Object,
     },
+    topSelling: {
+      type: Array,
+    },
     totalPaidOrders: {
       type: Number,
     },

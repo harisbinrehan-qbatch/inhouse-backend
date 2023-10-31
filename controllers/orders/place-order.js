@@ -1,4 +1,5 @@
 import OrderModel from '../../models/order';
+import ProductModel from '../../models/product';
 
 const PlaceOrder = async (req, res) => {
   try {
@@ -15,7 +16,21 @@ const PlaceOrder = async (req, res) => {
       total: orderSummary.total,
     });
 
-    console.log('New Order', newOrder);
+    const updateProductPromises = products.map(async (product) => {
+      const existingProduct = await ProductModel.findById(product._id);
+
+      if (existingProduct) {
+        const newQuantity = existingProduct.quantity - product.quantity;
+
+        existingProduct.sold += product.quantity;
+
+        existingProduct.quantity = newQuantity;
+
+        await existingProduct.save();
+      }
+    });
+
+    await Promise.all(updateProductPromises);
 
     await newOrder.save();
 

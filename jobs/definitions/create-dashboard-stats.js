@@ -5,6 +5,7 @@ import { JOB_STATES } from '../utils';
 
 import DashboardStats from '../../models/dashboard-stats';
 import OrderSchema from '../../models/order';
+import ProductSchema from '../../models/product';
 
 Agenda.define(
   'create-dashboard-stats',
@@ -60,6 +61,21 @@ Agenda.define(
         { totalPaidOrders },
         { totalUnpaidOrders }
       );
+
+
+      const topSellingProducts = await ProductSchema.aggregate([
+        {
+          $sort: { sold: -1 }, 
+        },
+        {
+          $limit: 10,
+        },
+      ]);
+
+      
+
+      console.log('Top selling products are:', topSellingProducts);
+
 
       // Function to calculate one year stats
       const calculateOneYearStats = async () => {
@@ -188,6 +204,7 @@ Agenda.define(
         sevenDayStats: sevenDayStats[0],
         thirtyDayStats: thirtyDayStats[0],
         oneYearStats,
+        topSelling: topSellingProducts,
       });
 
       const total = await DashboardStats.countDocuments();
