@@ -12,14 +12,24 @@ const SaveAddress = async (req, res) => {
       );
 
       if (!existingAddressInfo) {
+        if (addressInfo.isDefault === true) {
+          existingAddress.addressInfo.forEach((info) => {
+            info.isDefault = false;
+          });
+        }
+
         existingAddress.addressInfo.push(addressInfo);
         await existingAddress.save();
       }
     } else {
       const newAddress = new AddressModel({
         userId,
-        addressInfo: [addressInfo],
+        addressInfo: {
+          ...addressInfo,
+          isDefault: true,
+        },
       });
+
       await newAddress.save();
     }
 
