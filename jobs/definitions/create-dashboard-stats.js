@@ -197,22 +197,25 @@ Agenda.define(
       job.attrs.progress = 100;
       await job.save();
 
-      const stat = new DashboardStats({
-        totalPaidOrders: totalPaidOrders[0].count,
-        totalUnpaidOrders: totalUnpaidOrders[0].count,
-        todayStats: todayStats[0],
-        sevenDayStats: sevenDayStats[0],
-        thirtyDayStats: thirtyDayStats[0],
-        oneYearStats,
-        topSelling: topSellingProducts,
-      });
-
-      const total = await DashboardStats.countDocuments();
-      if (total > 0) {
-        await stat.updateOne({}, { exclude: ['_id'] });
-      } else {
-        await stat.save();
-      }
+      await DashboardStats.updateOne(
+        {
+          _id: '6544e40a11a33d8ec197c7b9',
+        },
+        {
+          $set: {
+            totalPaidOrders: totalPaidOrders[0].count,
+            totalUnpaidOrders: totalUnpaidOrders[0].count,
+            todayStats: todayStats[0],
+            sevenDayStats: sevenDayStats[0],
+            thirtyDayStats: thirtyDayStats[0],
+            oneYearStats,
+            topSelling: topSellingProducts,
+          },
+        },
+        {
+          upsert: true,
+        }
+      );
 
       console.log('*********************************************************');
       console.log('********  Create Dashboard Stats Job Completed   ********');
