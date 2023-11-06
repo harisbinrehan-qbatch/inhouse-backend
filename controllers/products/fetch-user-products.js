@@ -1,11 +1,10 @@
 import productModel from '../../models/product';
+import catchResponse from '../../utils/catch-response';
 
 const getAllProducts = async (req, res) => {
   try {
-    const { limit, skip, filterObject } = req.query;
+    const { filterObject } = req.query;
 
-    const limitValue = Number(limit) || 100;
-    const skipValue = Number(skip) || 0;
 
     const selector = {};
 
@@ -47,18 +46,15 @@ const getAllProducts = async (req, res) => {
     const products = await productModel
       .find(selector)
       .sort(sort)
-      .limit(limitValue)
-      .skip(skipValue);
 
-    res.status(200).json({
+     res.status(200).json({
       products,
     });
   } catch (error) {
-    console.error('An error occurred:', error);
-    res.status(500).json({
-      message: 'Oops! An internal server error occurred.',
-    });
+    error.statusCode = 401;
+    catchResponse({ res, err: error });
   }
+  
 };
 
 export default getAllProducts;

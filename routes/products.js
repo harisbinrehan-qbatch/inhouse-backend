@@ -4,9 +4,10 @@ import passport from 'passport';
 
 import {
   AddProduct,
-  FetchAllProducts,
   DeleteProduct,
   UpdateProduct,
+  FetchUserProducts,
+  FetchAdminProducts,
 } from '../controllers/products';
 
 const router = express.Router();
@@ -22,9 +23,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get(
-  '/fetchProducts',
-  FetchAllProducts
+  '/fetchUserProducts',
+  FetchUserProducts
 );
+
+router.get('/fetchAdminProducts', FetchAdminProducts);
 
 router.post(
   '/addProduct',
