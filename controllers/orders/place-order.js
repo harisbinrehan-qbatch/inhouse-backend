@@ -3,6 +3,7 @@ import ProductModel from '../../models/product';
 
 const PlaceOrder = async (req, res) => {
   try {
+    console.log('bjhagkjrhjsnfkslme', req.body)
     const { username, userId, products, orderSummary } = req.body;
 
     const orderId = generateOrderId();
