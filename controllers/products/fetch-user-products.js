@@ -1,10 +1,13 @@
 import productModel from '../../models/product';
-import catchResponse from '../../utils/catch-response';
 
-const getAllProducts = async (req, res) => {
+const fetchUserProducts = async (req, res) => {
   try {
-    const { filterObject } = req.query;
+    const { limit, skip, filterObject } = req.query;
 
+    console.log('Here', req.query);
+
+    const limitValue = Number(limit) || 5;
+    const skipValue = Number(skip) || 3;
 
     const selector = {};
 
@@ -43,18 +46,24 @@ const getAllProducts = async (req, res) => {
       }
     }
 
+      const totalCount = await productModel.countDocuments(selector);
+
     const products = await productModel
       .find(selector)
       .sort(sort)
+      .limit(limitValue)
+      .skip(skipValue);
 
-     res.status(200).json({
+    res.status(200).json({
       products,
+      totalCount,
     });
   } catch (error) {
-    error.statusCode = 401;
-    catchResponse({ res, err: error });
+    console.error('An error occurred:', error);
+    res.status(500).json({
+      message: 'Oops! An internal server error occurred.',
+    });
   }
-  
 };
 
-export default getAllProducts;
+export default fetchUserProducts;

@@ -20,4 +20,12 @@ Router.get('/script', async (req, res) => {
   }
 });
 
+Router.post('/webhook', async (req, res) => {
+  try {
+    console.log('inside web hook');
+  } catch (error) {
+    res.send(error.message);
+  }
+});
+
 export default Router;

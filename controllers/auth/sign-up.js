@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import userModel from '../../models/user';
-
+import stripe from 'stripe';
 const SignUp = async (req, res) => {
   try {
     const { username, email, password, mobile } = req.body;
@@ -29,6 +29,16 @@ const SignUp = async (req, res) => {
     });
 
     await newUser.save();
+    const stripeSecretKey =
+      'sk_test_51O9qRKEUPqkxJXNbLVx6wM1GLkcSMxrNbM0486sAlLmKze9JkyRdovJSIGQ2NQTyWNKnzDVyWgTvR2d7RyOG3vUt00dF03MnL6';
+
+      const stripeClient = stripe(stripeSecretKey);
+      // eslint-disable-next-line no-unused-vars
+      const customer = await stripeClient.customers.create({
+        name: newUser.username,
+        email: newUser.email
+      });
+      
 
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {

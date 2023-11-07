@@ -4,7 +4,7 @@ import catchResponse from '../../utils/catch-response';
 const fetchAdminProducts = async (req, res) => {
   try {
     const { limit, skip, filterObject } = req.query;
-    console.log('Here??', req.query);
+    console.log('fetchAdminProducts ??', req.query);
     const limitValue = Number(limit);
     const skipValue = Number(skip);
 
