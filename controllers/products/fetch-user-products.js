@@ -5,12 +5,10 @@ const fetchUserProducts = async (req, res) => {
     const { limit, skip, filterObject } = req.query;
     let limitValue = 0;
     let skipValue = 0;
-    if(!filterObject) {
-       limitValue = Number(limit) || 0;
-       skipValue = Number(skip) || 0;
+    if (!filterObject) {
+      limitValue = Number(limit) || 0;
+      skipValue = Number(skip) || 0;
     }
-
-    console.log({ limitValue, skipValue });
 
     const selector = {};
 
@@ -49,19 +47,13 @@ const fetchUserProducts = async (req, res) => {
       }
     }
 
-      const totalCount = await productModel.countDocuments(selector);
+    const totalCount = await productModel.countDocuments(selector);
 
     const products = await productModel
       .find(selector)
       .sort(sort)
       .limit(limitValue)
       .skip(skipValue);
-
-    // console.log('Here', {
-    //   ...req.query,
-    //   LENGTH: products?.length || 0,
-    //   selector,
-    // });
 
     res.status(200).json({
       products,
