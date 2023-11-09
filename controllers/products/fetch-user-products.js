@@ -3,11 +3,14 @@ import productModel from '../../models/product';
 const fetchUserProducts = async (req, res) => {
   try {
     const { limit, skip, filterObject } = req.query;
+    let limitValue = 0;
+    let skipValue = 0;
+    if(!filterObject) {
+       limitValue = Number(limit) || 0;
+       skipValue = Number(skip) || 0;
+    }
 
-    console.log('Here', req.query);
-
-    const limitValue = Number(limit) || 5;
-    const skipValue = Number(skip) || 3;
+    console.log({ limitValue, skipValue });
 
     const selector = {};
 
@@ -53,6 +56,12 @@ const fetchUserProducts = async (req, res) => {
       .sort(sort)
       .limit(limitValue)
       .skip(skipValue);
+
+    // console.log('Here', {
+    //   ...req.query,
+    //   LENGTH: products?.length || 0,
+    //   selector,
+    // });
 
     res.status(200).json({
       products,
