@@ -20,7 +20,6 @@ passport.use(
       }
       return done(null, false);
     } catch (error) {
-      console.error('Error in JWT strategy:', error);
       return done(error, false);
     }
   })

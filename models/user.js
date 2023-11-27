@@ -23,6 +23,11 @@ const User = new mongoose.Schema({
   isAdmin: {
     type: Boolean,
   },
+  stripeId: {
+    type: String,
+    default: '',
+  },
+  
 });
 
 const userModel = new mongoose.model('users', User);

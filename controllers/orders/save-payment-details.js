@@ -1,39 +1,32 @@
-import PaymentDetailsModel from '../../models/payment-details';
+import { stripePublishableClient, stripeSecretKeyClient } from '../../config/config';
+import userModel from '../../models/user';
 
 const SavePaymentDetails = async (req, res) => {
   try {
     const { userId, paymentDetails } = req.body;
 
-    const existingPaymentDetails = await PaymentDetailsModel.findOne({
-      userId,
-    });
+    console.log('In backend API', { userId,paymentDetails});
 
-    if (existingPaymentDetails) {
-      existingPaymentDetails.cardNumber = paymentDetails.cardNumber;
-      existingPaymentDetails.expiryDate = paymentDetails.expiryDate;
-      existingPaymentDetails.cvc = paymentDetails.cvc;
-      existingPaymentDetails.cardholderName = paymentDetails.cardholderName;
-      await existingPaymentDetails.save();
+    const response = await userModel.findOne({_id: userId}, {stripeId: 1, _id: 0});
+    const {stripeId}= response;
 
-      res.status(200).json({
-        message: 'Payment details have been updated successfully',
-        paymentDetails,
-      });
-    } else {
-      const newPaymentDetails = new PaymentDetailsModel({
-        userId,
-        cardNumber: paymentDetails.cardNumber,
-        expiryDate: paymentDetails.expiryDate,
-        cvc: paymentDetails.cvc,
-        cardholderName: paymentDetails.cardholderName,
-      });
-      await newPaymentDetails.save();
+const card = await stripePublishableClient.tokens.create({
+  card: {
+    number: paymentDetails.cardNumber,
+    exp_month:11,
+    exp_year: 30,
+    cvc: paymentDetails.cvc,
+  },
+});
 
-      res.status(200).json({
-        message: 'Payment details have been added successfully',
-        paymentDetails,
-      });
-    }
+const source = await stripeSecretKeyClient.customers.createSource(stripeId, {
+  source: card.id,
+  metadata: {
+    cardNumber: paymentDetails.cardNumber,
+    userStripeId: stripeId,
+  },
+});
+return source;
   } catch (error) {
     console.error('Error saving or updating payment details', error);
     res.status(500).json({ message: 'Internal Server Error' });

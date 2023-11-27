@@ -1,6 +1,7 @@
 import express from 'express';
 
 import ScriptMethods from '../script-methods';
+import userModel from '../models/user';
 
 const Router = express.Router();
 
@@ -22,7 +23,11 @@ Router.get('/script', async (req, res) => {
 
 Router.post('/webhook', async (req, res) => {
   try {
-    console.log('inside web hook');
+    if(req.body.type === 'customer.created') {
+      const {email, id }= req.body.data.object;
+      await userModel.updateOne({email}, {$set: {stripeId: id}});
+
+    }
   } catch (error) {
     res.send(error.message);
   }

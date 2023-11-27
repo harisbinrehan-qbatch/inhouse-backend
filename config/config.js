@@ -1,3 +1,7 @@
-const { PORT, MONGO_URL } = process.env;
+import stripe from 'stripe';
 
-export { PORT, MONGO_URL };
+const { PORT, MONGO_URL, PUBLISHABLE_KEY, SECRET_KEY } = process.env;
+
+const stripePublishableClient = stripe(PUBLISHABLE_KEY);
+const  stripeSecretKeyClient = stripe(SECRET_KEY);
+export { PORT, MONGO_URL, stripePublishableClient, stripeSecretKeyClient };
