@@ -5,8 +5,6 @@ const SavePaymentDetails = async (req, res) => {
   try {
     const { userId, paymentDetails } = req.body;
 
-    console.log('In backend API', { userId,paymentDetails});
-
     const response = await userModel.findOne({_id: userId}, {stripeId: 1, _id: 0});
     const {stripeId}= response;
 
@@ -26,6 +24,7 @@ const source = await stripeSecretKeyClient.customers.createSource(stripeId, {
     userStripeId: stripeId,
   },
 });
+
 return source;
   } catch (error) {
     console.error('Error saving or updating payment details', error);
