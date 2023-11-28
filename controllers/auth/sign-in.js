@@ -22,6 +22,7 @@ export const SignIn = async (req, res) => {
         res.status(200).json({
           username: result.username,
           userId: result._id,
+          stripeId: result.stripeId,
           email: result.email,
           token: token,
           mobile: result.mobile,

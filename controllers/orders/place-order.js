@@ -1,10 +1,21 @@
 import OrderModel from '../../models/order';
 import ProductModel from '../../models/product';
 import NotificationModel from '../../models/notification';
+import ChargeCustomer from '../../utils/charge-customer';
 
 const PlaceOrder = async (req, res) => {
   try {
-    const { username, userId, products, orderSummary } = req.body;
+    const {
+      username,
+      email,
+      stripeId,
+      cardStripeId,
+      userId,
+      products,
+      orderSummary,
+    } = req.body;
+
+    // console.log('bsjhfjsh', req.body)
 
     const orderId = generateOrderId();
 
@@ -38,13 +49,32 @@ const PlaceOrder = async (req, res) => {
 
     await newOrder.save();
 
-    const newNotification = new NotificationModel({
+   const r = await ChargeCustomer({
+      totalAmount: orderSummary.total,
+      email,
+      stripeId,
+      cardStripeId,
+      orderId,
+    });
+
+  //   console.log(r);
+    const adminNotification = new NotificationModel({
       userId,
       text: `Order# ${orderId} has been placed`,
       isRead: false,
+      forAdmin: true,
     });
 
-    const savedNotification = await newNotification.save();
+    const userNotification = new NotificationModel({
+      userId,
+      text: `Order# ${orderId} has been placed`,
+      isRead: false,
+      forAdmin: false,
+    });
+
+    await userNotification.save();
+
+    const savedNotification = await adminNotification.save();
 
     res.status(201).json(savedNotification);
     return;
