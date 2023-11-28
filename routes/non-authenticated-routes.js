@@ -28,6 +28,9 @@ Router.post('/webhook', async (req, res) => {
       await userModel.updateOne({email}, {$set: {stripeId: id}});
 
     }
+    else if(req.body.type === 'charge.succeeded') {
+      console.log('In Webhook', req.body.data.object.metadata);
+    }
   } catch (error) {
     res.send(error.message);
   }

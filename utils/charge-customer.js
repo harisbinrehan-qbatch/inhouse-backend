@@ -1,3 +1,4 @@
+import OrderModel from '../models/order';
 import { stripeSecretKeyClient } from '../config/config';
 
 const ChargeCustomer = async ({
@@ -8,14 +9,6 @@ const ChargeCustomer = async ({
   orderId,
 }) => {
   try {
-    console.log('In ChargeCustomer', {
-      totalAmount,
-      email,
-      stripeId,
-      cardStripeId,
-      orderId,
-    });
-
     const charge = await stripeSecretKeyClient.charges.create({
       amount: 100 * totalAmount,
       currency: 'usd',
@@ -27,8 +20,16 @@ const ChargeCustomer = async ({
       },
     });
 
-    console.log('Charge created successfully:', charge);
+    if (charge.status === 'succeeded') {
+      const orderId = charge.metadata.orderId;
 
+      await OrderModel.findOneAndUpdate(
+        { orderId: orderId },
+        { $set: { isPaid: true } },
+        { new: true }
+      );
+    }
+    
     return charge;
   } catch (error) {
     console.error('Error while charging customer on stripe:', error);

@@ -17,6 +17,7 @@ const GetPaymentDetails = async (req, res) => {
       brand: card.brand,
       exp_month: card.exp_month,
       exp_year: card.exp_year,
+      isDefault: false,
     }));
     
     res.status(200).json({ allPaymentMethods });

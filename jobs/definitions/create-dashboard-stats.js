@@ -11,9 +11,7 @@ Agenda.define(
   'create-dashboard-stats',
   { concurrency: 1 },
   async (job, done) => {
-    console.log('*********************************************************');
     console.log('*********  Create Dashboard Stats Job Started   *********');
-    console.log('*********************************************************');
 
     job.attrs.state = JOB_STATES.STARTED;
     job.attrs.progress = 0;
@@ -62,20 +60,16 @@ Agenda.define(
         { totalUnpaidOrders }
       );
 
-
       const topSellingProducts = await ProductSchema.aggregate([
         {
-          $sort: { sold: -1 }, 
+          $sort: { sold: -1 },
         },
         {
           $limit: 10,
         },
       ]);
 
-      
-
       console.log('Top selling products are:', topSellingProducts);
-
 
       // Function to calculate one year stats
       const calculateOneYearStats = async () => {
@@ -217,15 +211,10 @@ Agenda.define(
         }
       );
 
-      console.log('*********************************************************');
       console.log('********  Create Dashboard Stats Job Completed   ********');
-      console.log('*********************************************************');
     } catch (error) {
-      console.log('*********************************************************');
       console.log('***********  Create Dashboard Stats Job Retry  **********');
-      console.log('*********************************************************');
       console.log(error.message);
-      console.log('*********************************************************');
 
       job.attrs.state = JOB_STATES.FAILED;
       job.attrs.failedAt = new Date();

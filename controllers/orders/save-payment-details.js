@@ -15,16 +15,14 @@ const SavePaymentDetails = async (req, res) => {
 
     const { stripeId } = response;
 
-    const { number, exp_month, exp_year, cvc } = paymentDetails;
-
-    console.log({ paymentDetails });
+    const { number, exp_month, exp_year } = paymentDetails;
 
     const card = await stripePublishableClient.tokens.create({
       card: {
         number,
         exp_month,
         exp_year,
-        cvc,
+        cvc:123,
       },
     });
 

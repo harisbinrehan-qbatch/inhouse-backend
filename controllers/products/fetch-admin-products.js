@@ -15,8 +15,6 @@ const fetchAdminProducts = async (req, res) => {
 
     const totalCount = await productModel.countDocuments(selector);
 
-    console.log('Total documents are', totalCount);
-
     const products = await productModel
       .find(selector)
       .limit(limitValue)

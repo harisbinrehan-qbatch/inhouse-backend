@@ -13,31 +13,29 @@ const SetOrderAsDelivered = async (req, res) => {
 
     const { userId } = order;
 
+    const updatedOrderId = order.orderId;
+
     const updatedOrder = await OrderModel.findByIdAndUpdate(
       orderId,
       { isDelivered: true },
       { new: true }
     );
 
-    // Create and save a notification for the user
     const newNotification = new NotificationModel({
       userId,
-      text: `Order# ${orderId} has been delivered`,
+      text: `Order# ${updatedOrderId} has been delivered`,
       isRead: false,
       forAdmin: false,
     });
 
-   const result =  await newNotification.save();
-   console.log({ result });
+    console.log({ updatedOrderId });
 
-    // Respond with information about the updated order
+    await newNotification.save();
+
     res.status(200).json({
       message: 'Order has been marked as delivered',
       order: updatedOrder,
     });
-
-    // Alternatively, respond with information about the saved notification
-    // res.status(201).json(savedNotification);
   } catch (error) {
     console.error('Error updating order as delivered', error);
     res.status(500).json({ message: 'Internal Server Error' });

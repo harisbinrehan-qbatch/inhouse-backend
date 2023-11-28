@@ -2,33 +2,35 @@ import OrderModel from '../../models/order';
 
 const GetAllOrders = async (req, res) => {
   try {
-    const { orderId } = req.query;
-    
-    let results = [];
+    const { limit, skip, orderId } = req.query;
 
-    const orders = await OrderModel.find();
+    console.log({ limit, skip, orderId });
+    const limitValue = orderId ? undefined : Number(limit);
+    const skipValue = orderId ? undefined : Number(skip);
+
+    let query = {};
 
     if (orderId) {
       const regex = new RegExp(orderId, 'i');
+      query = { orderId: regex };
+    }
 
-      const searchedOrders = orders.filter((order) =>
-        regex.test(order.orderId)
-      );
+    const orders = await OrderModel.find(query)
+      .skip(skipValue)
+      .limit(limitValue);
 
-      if (searchedOrders.length === 0) {
-        return res.status(404).json({
-          message: 'No orders found.',
-          searchedOrders: null,
-        });
-      }
+    const totalCount = await OrderModel.countDocuments(query);
 
-      results = searchedOrders;
-    } else {
-      results = orders;
+    if (orders.length === 0) {
+      return res.status(404).json({
+        message: 'No orders found.',
+        searchedOrders: null,
+      });
     }
 
     return res.status(200).json({
-      orders: results,
+      orders: orders,
+      totalCount: totalCount,
     });
   } catch (error) {
     res.status(500).json({

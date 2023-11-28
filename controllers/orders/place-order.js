@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import OrderModel from '../../models/order';
 import ProductModel from '../../models/product';
 import NotificationModel from '../../models/notification';
@@ -14,8 +15,6 @@ const PlaceOrder = async (req, res) => {
       products,
       orderSummary,
     } = req.body;
-
-    // console.log('bsjhfjsh', req.body)
 
     const orderId = generateOrderId();
 
@@ -49,15 +48,15 @@ const PlaceOrder = async (req, res) => {
 
     await newOrder.save();
 
-   const r = await ChargeCustomer({
+    await ChargeCustomer({
       totalAmount: orderSummary.total,
       email,
       stripeId,
       cardStripeId,
       orderId,
+      cvc: 123,
     });
 
-  //   console.log(r);
     const adminNotification = new NotificationModel({
       userId,
       text: `Order# ${orderId} has been placed`,
@@ -86,8 +85,9 @@ const PlaceOrder = async (req, res) => {
 
 function generateOrderId() {
   const timestamp = new Date().getTime();
-  const uniqueId = Math.floor(1000 + Math.random() * 9000);
-  return `${timestamp}${uniqueId}`;
+  const uniqueId = Math.floor(100000 + Math.random() * 900000);
+  const orderId = `${timestamp}${uniqueId}`.slice(0, 10); 
+  return orderId;
 }
 
 export default PlaceOrder;
