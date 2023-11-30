@@ -2,7 +2,7 @@
 import OrderModel from '../../models/order';
 import ProductModel from '../../models/product';
 import NotificationModel from '../../models/notification';
-import ChargeCustomer from '../../utils/charge-customer';
+import ChargeCustomer from '../stripe/utils/charge-customer';
 
 const PlaceOrder = async (req, res) => {
   try {

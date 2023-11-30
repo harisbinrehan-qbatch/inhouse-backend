@@ -1,6 +1,6 @@
 import userModel from '../../models/user';
 import { GenerateToken } from '../../middlewares/auth';
-import sendEmail from '../../utils/nodemailer';
+import sendEmail from '../../utils/send-email';
 
 export const ForgotPassword = async (req, res) => {
   try {

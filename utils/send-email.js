@@ -20,7 +20,7 @@ const sendEmail = async (email, token) => {
       <h2>Reset Your Password</h2>
       <p>Hello,</p>
       <p>We received a request to reset your password of <b>Q-commerce</b>. To reset your password, please click the link below:</p>
-      <p> <a href='http://localhost:3000/newPassword?token=${token}'>Click Here</a></p>
+      <p> <a href='http://localhost:3000/auth/newPassword?token=${token}'>Click Here</a></p>
       <p>If you did not request a password reset, you can ignore this email.</p>
       <p>Thank you.</p>
     `,

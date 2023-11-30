@@ -5,9 +5,11 @@ import {
 import userModel from '../../models/user';
 
 const SavePaymentDetails = async (req, res) => {
+
   try {
     const { userId, paymentDetails } = req.body;
-
+    
+    console.log({ userId, paymentDetails });
     const response = await userModel.findOne(
       { _id: userId },
       { stripeId: 1, _id: 0 }
@@ -16,6 +18,8 @@ const SavePaymentDetails = async (req, res) => {
     const { stripeId } = response;
 
     const { number, exp_month, exp_year } = paymentDetails;
+
+    console.log({stripeId})
 
     const card = await stripePublishableClient.tokens.create({
       card: {
@@ -37,9 +41,11 @@ const SavePaymentDetails = async (req, res) => {
       }
     );
 
+    console.log('++++++++++', source)
+
     return source;
   } catch (error) {
-    console.error('Error saving or updating payment details', error);
+    console.log('Error saving or updating payment details', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

@@ -18,7 +18,7 @@ const SignUp = async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(10);
-    
+
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new userModel({
@@ -30,17 +30,15 @@ const SignUp = async (req, res) => {
 
     await newUser.save();
 
-      // eslint-disable-next-line no-unused-vars
-      const customer = await stripeSecretKeyClient.customers.create({
-        name: newUser.username,
-        email: newUser.email
-      });
-      
+    await stripeSecretKeyClient.customers.create({
+      name: newUser.username,
+      email: newUser.email,
+    });
 
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     console.error('Error creating user:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(400).json({ message: 'Internal Server Error' });
   }
 };
 

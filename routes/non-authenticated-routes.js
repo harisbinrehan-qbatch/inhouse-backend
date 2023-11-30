@@ -1,11 +1,11 @@
 import express from 'express';
 
 import ScriptMethods from '../script-methods';
-import userModel from '../models/user';
+import { StripeActions } from '../controllers/stripe';
 
-const Router = express.Router();
+const router = express.Router();
 
-Router.get('/script', async (req, res) => {
+router.get('/script', async (req, res) => {
   try {
     const { query } = req;
     const { method, ...rest } = query;
@@ -21,19 +21,6 @@ Router.get('/script', async (req, res) => {
   }
 });
 
-Router.post('/webhook', async (req, res) => {
-  try {
-    if(req.body.type === 'customer.created') {
-      const {email, id }= req.body.data.object;
-      await userModel.updateOne({email}, {$set: {stripeId: id}});
+router.post('/webhook', StripeActions);
 
-    }
-    else if(req.body.type === 'charge.succeeded') {
-      console.log('In Webhook', req.body.data.object.metadata);
-    }
-  } catch (error) {
-    res.send(error.message);
-  }
-});
-
-export default Router;
+export default router;

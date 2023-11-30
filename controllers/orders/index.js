@@ -8,6 +8,7 @@ import GetAllOrders from './get-orders';
 import SetOrderAsDelivered from './set-isDelivered';
 import GetOrderStats from './get-order-stats'
 import GetAdminOrderStats from './get-admin-order-stats';
+import GetUserOrders from './get-user-orders'
 
 export {
   PlaceOrder,
@@ -20,4 +21,5 @@ export {
   SetOrderAsDelivered,
   GetOrderStats,
   GetAdminOrderStats,
+  GetUserOrders,
 };

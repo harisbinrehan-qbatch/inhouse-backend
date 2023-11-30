@@ -4,7 +4,6 @@ const GetAllOrders = async (req, res) => {
   try {
     const { limit, skip, orderId } = req.query;
 
-    console.log({ limit, skip, orderId });
     const limitValue = orderId ? undefined : Number(limit);
     const skipValue = orderId ? undefined : Number(skip);
 

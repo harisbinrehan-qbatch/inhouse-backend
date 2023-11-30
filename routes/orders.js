@@ -5,6 +5,7 @@ import {
   GetAddress,
   GetOrderStats,
   GetPaymentDetails,
+  GetUserOrders,
   PlaceOrder,
 } from '../controllers/orders';
 import saveAddress from '../controllers/orders/save-address';
@@ -56,6 +57,12 @@ router.get(
   '/getOrders',
   passport.authenticate('jwt', { session: false }),
   GetAllOrders
+);
+
+router.get(
+  '/getUserOrders',
+  passport.authenticate('jwt', { session: false }),
+  GetUserOrders
 );
 
 router.put(
