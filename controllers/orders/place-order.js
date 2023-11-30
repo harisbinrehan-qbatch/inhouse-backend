@@ -13,7 +13,7 @@ const PlaceOrder = async (req, res) => {
       cardStripeId,
       userId,
       products,
-      orderSummary,
+      totalAmount,
     } = req.body;
 
     const orderId = generateOrderId();
@@ -24,7 +24,7 @@ const PlaceOrder = async (req, res) => {
       userId,
       products,
       totalProducts: products.length,
-      total: orderSummary.total,
+      total: totalAmount, // Use totalAmount here
     });
 
     const updateProductPromises = products.map(async (product) => {
@@ -48,8 +48,9 @@ const PlaceOrder = async (req, res) => {
 
     await newOrder.save();
 
+
     await ChargeCustomer({
-      totalAmount: orderSummary.total,
+      totalAmount: Math.round(totalAmount),
       email,
       stripeId,
       cardStripeId,
@@ -86,7 +87,7 @@ const PlaceOrder = async (req, res) => {
 function generateOrderId() {
   const timestamp = new Date().getTime();
   const uniqueId = Math.floor(100000 + Math.random() * 900000);
-  const orderId = `${timestamp}${uniqueId}`.slice(0, 10); 
+  const orderId = `${timestamp}${uniqueId}`.slice(0, 10);
   return orderId;
 }
 
