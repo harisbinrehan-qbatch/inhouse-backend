@@ -71,8 +71,16 @@ router.put(
   SetOrderAsDelivered
 );
 
-router.get('/getOrderStats', GetOrderStats);
+router.get(
+  '/getOrderStats',
+  passport.authenticate('jwt', { session: false }),
+  GetOrderStats
+);
 
-router.get('/getAdminOrderStats', GetAdminOrderStats);
+router.get(
+  '/getAdminOrderStats',
+  passport.authenticate('jwt', { session: false }),
+  GetAdminOrderStats
+);
 
 export default router;
