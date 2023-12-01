@@ -4,7 +4,6 @@ import SetStatusPaidOnChargeCustomer from './utils/set-status-paid';
 const StripeActions = async (req, res) => {
   try {
     if (req.body.type === 'customer.created') {
-      console.log('Coming here??? in StripeActions');
       await CreateCustomer(req);
     } else if (req.body.type === 'charge.succeeded') {
       await SetStatusPaidOnChargeCustomer(req);

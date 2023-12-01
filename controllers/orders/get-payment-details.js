@@ -6,9 +6,13 @@ const GetPaymentDetails = async (req, res) => {
     const { userId } = req.query;
 
     const user = await userModel.findOne({ _id: { $in: userId } });
-    const cards = await stripeSecretKeyClient.customers.listSources(user.stripeId, {
-      object: 'card',
-    });
+
+    const cards = await stripeSecretKeyClient.customers.listSources(
+      user.stripeId,
+      {
+        object: 'card',
+      }
+    );
 
     const allPaymentMethods = cards.data.map((card) => ({
       cardholderName: user.username,
@@ -18,7 +22,7 @@ const GetPaymentDetails = async (req, res) => {
       exp_month: card.exp_month,
       exp_year: card.exp_year,
     }));
-    
+
     res.status(200).json({ allPaymentMethods });
   } catch (error) {
     console.error('Error retrieving payment details', error);

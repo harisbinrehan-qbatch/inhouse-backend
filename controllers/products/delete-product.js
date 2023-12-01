@@ -1,7 +1,6 @@
 import ProductModel from '../../models/product';
 
 const DeleteProduct = async (req, res) => {
-  console.log(req.query)
   try {
     const { _id } = req.query;
 

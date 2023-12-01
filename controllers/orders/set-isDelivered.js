@@ -28,8 +28,6 @@ const SetOrderAsDelivered = async (req, res) => {
       forAdmin: false,
     });
 
-    console.log({ updatedOrderId });
-
     await newNotification.save();
 
     res.status(200).json({

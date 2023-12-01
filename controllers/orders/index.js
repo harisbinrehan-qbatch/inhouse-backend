@@ -9,17 +9,21 @@ import SetOrderAsDelivered from './set-isDelivered';
 import GetOrderStats from './get-order-stats'
 import GetAdminOrderStats from './get-admin-order-stats';
 import GetUserOrders from './get-user-orders'
+import EditPaymentDetails from './edit-payment-details'
+import DeletePaymentDetails from './delete-payment-details'
 
 export {
   PlaceOrder,
   SaveAddress,
   GetAddress,
   UpdateDefaultAddress,
-  SavePaymentDetails,
-  GetPaymentDetails,
   GetAllOrders,
   SetOrderAsDelivered,
   GetOrderStats,
   GetAdminOrderStats,
   GetUserOrders,
+  SavePaymentDetails,
+  GetPaymentDetails,
+  EditPaymentDetails,
+  DeletePaymentDetails,
 };

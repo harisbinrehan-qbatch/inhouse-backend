@@ -2,6 +2,8 @@ import express from 'express';
 import passport from 'passport';
 
 import {
+  DeletePaymentDetails,
+  EditPaymentDetails,
   GetAddress,
   GetOrderStats,
   GetPaymentDetails,
@@ -41,18 +43,6 @@ router.put(
   UpdateDefaultAddress
 );
 
-router.post(
-  '/paymentDetails',
-  passport.authenticate('jwt', { session: false }),
-  SavePaymentDetails
-);
-
-router.get(
-  '/GetPaymentDetails',
-  passport.authenticate('jwt', { session: false }),
-  GetPaymentDetails
-);
-
 router.get(
   '/getOrders',
   passport.authenticate('jwt', { session: false }),
@@ -82,5 +72,32 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   GetAdminOrderStats
 );
+
+router.post(
+  '/paymentDetails',
+  passport.authenticate('jwt', { session: false }),
+  SavePaymentDetails
+);
+
+router.get(
+  '/paymentDetails',
+  passport.authenticate('jwt', { session: false }),
+  GetPaymentDetails
+);
+
+router.put(
+  '/paymentDetails',
+  passport.authenticate('jwt', { session: false }),
+  EditPaymentDetails
+);
+
+router.delete(
+  '/paymentDetails',
+  passport.authenticate('jwt', { session: false }),
+  DeletePaymentDetails
+);
+
+
+
 
 export default router;
