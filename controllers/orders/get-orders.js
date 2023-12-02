@@ -28,11 +28,11 @@ const GetAllOrders = async (req, res) => {
     }
 
     return res.status(200).json({
-      orders: orders,
-      totalCount: totalCount,
+      orders,
+      totalCount
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       message: `Oops! An internal server error occurred: ${error.message}`,
     });
   }

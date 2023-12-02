@@ -3,6 +3,7 @@ import OrderModel from '../../models/order';
 import ProductModel from '../../models/product';
 import NotificationModel from '../../models/notification';
 import ChargeCustomer from '../stripe/utils/charge-customer';
+import generateOrderId from '../../utils/generate-order-id';
 
 const PlaceOrder = async (req, res) => {
   try {
@@ -24,7 +25,7 @@ const PlaceOrder = async (req, res) => {
       userId,
       products,
       totalProducts: products.length,
-      total: totalAmount, // Use totalAmount here
+      total: totalAmount,
     });
 
     const updateProductPromises = products.map(async (product) => {
@@ -41,13 +42,13 @@ const PlaceOrder = async (req, res) => {
         }
       } catch (error) {
         console.error(`Error updating product ${product._id}:`, error);
+        throw error; // Re-throw the error to stop the execution if there's an issue
       }
     });
 
     await Promise.all(updateProductPromises);
 
     await newOrder.save();
-
 
     await ChargeCustomer({
       totalAmount: Math.round(totalAmount),
@@ -76,19 +77,11 @@ const PlaceOrder = async (req, res) => {
 
     const savedNotification = await adminNotification.save();
 
-    res.status(201).json(savedNotification);
-    return;
+    res.status(200).json({ message: 'Order placed successfully', orderId });
   } catch (error) {
-    console.error('Error placing order', error);
+    console.error('Error in PlaceOrder:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-
-function generateOrderId() {
-  const timestamp = new Date().getTime();
-  const uniqueId = Math.floor(100000 + Math.random() * 900000);
-  const orderId = `${timestamp}${uniqueId}`.slice(0, 10);
-  return orderId;
-}
 
 export default PlaceOrder;

@@ -37,8 +37,6 @@ const SavePaymentDetails = async (req, res) => {
       }
     );
 
-    console.log({card})
-
     return res.status(200).json('Payment details saved successfully');
   } catch (error) {
     console.log('Error saving or updating payment details', error);

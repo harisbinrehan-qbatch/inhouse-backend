@@ -1,4 +1,5 @@
 import { stripeSecretKeyClient } from '../../../config/config';
+import OrderModel from '../../../models/order';
 
 const ChargeCustomer = async ({
   totalAmount,
@@ -18,6 +19,9 @@ const ChargeCustomer = async ({
         orderId: orderId,
       },
     });
+    if (charge.status === 'succeeded') {
+      await OrderModel.updateOne({ orderId }, { isPaid: true });
+    }
 
     return charge;
   } catch (error) {

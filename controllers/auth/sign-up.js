@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import userModel from '../../models/user';
 import { stripeSecretKeyClient } from '../../config/config';
+import sendWelcomeEmail from '../../utils/welcome-email';
+
 const SignUp = async (req, res) => {
   try {
     const { username, email, password, mobile } = req.body;
@@ -18,7 +20,6 @@ const SignUp = async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(10);
-
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new userModel({
@@ -28,17 +29,20 @@ const SignUp = async (req, res) => {
       mobile,
     });
 
-    await newUser.save();
-
-    await stripeSecretKeyClient.customers.create({
+    const stripe = await stripeSecretKeyClient.customers.create({
       name: newUser.username,
       email: newUser.email,
     });
 
+    newUser.stripeId = stripe.id;
+    await newUser.save();
+
+    await sendWelcomeEmail(email);
+
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     console.error('Error creating user:', error);
-    res.status(400).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

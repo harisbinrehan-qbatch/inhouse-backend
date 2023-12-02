@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-const sendEmail = async (email, token) => {
+const sendResetEmail = async (email, token) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     host: 'smtp.gmail.com',
@@ -28,4 +28,4 @@ const sendEmail = async (email, token) => {
   console.log('Message sent: %s', info.messageId);
 };
 
-export default sendEmail;
+export default sendResetEmail;

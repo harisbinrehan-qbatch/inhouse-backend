@@ -1,6 +1,6 @@
 import userModel from '../../models/user';
 import { GenerateToken } from '../../middlewares/auth';
-import sendEmail from '../../utils/send-email';
+import sendResetEmail from '../../utils/send-rest-email';
 
 export const ForgotPassword = async (req, res) => {
   try {
@@ -16,7 +16,7 @@ export const ForgotPassword = async (req, res) => {
 
     if (result) {
       const token = GenerateToken(email);
-      await sendEmail(email, token);
+      await sendResetEmail(email, token);
       return res.status(200).send('Email sent successfully');
     } else {
       return res.status(401).json({

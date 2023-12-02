@@ -2,16 +2,23 @@ import OrderModel from '../../models/order';
 
 const GetUserOrders = async (req, res) => {
   try {
-    const { userId } = req.query;
+    const { userId, skip, limit } = req.query;
 
-    const userOrders = await OrderModel.find({ userId: userId });
+    const limitValue = Number(limit) || 0;
+    const skipValue = Number(skip) || 0;
 
-    return res.status(200).json(userOrders);
+    const orders = await OrderModel.find({ userId: userId })
+      .skip(skipValue)
+      .limit(limitValue);
+
+    const totalCount = await OrderModel.countDocuments({ userId: userId });
+
+    return res.status(200).json({
+      orders,
+      totalCount,
+    });
   } catch (error) {
-    console.log('Error fetching user orders:', error);
-    return res
-      .status(400)
-      .json({ success: false, error: 'Internal Server Error' });
+    return res.status(400).json({ message: 'Internal Server Error' });
   }
 };
 

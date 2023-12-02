@@ -8,6 +8,7 @@ import {
   UpdateProduct,
   FetchUserProducts,
   FetchAdminProducts,
+  AddBulkProducts,
 } from '../controllers/products';
 
 const router = express.Router();
@@ -35,6 +36,13 @@ router.post(
   upload.any(),
   AddProduct
 );
+router.post(
+  '/addBulkProducts',
+  passport.authenticate('jwt', { session: false }),
+  upload.any(),
+  AddBulkProducts
+);
+
 
 router.delete(
   '/deleteProduct',
