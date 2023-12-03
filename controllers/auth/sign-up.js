@@ -10,14 +10,16 @@ const SignUp = async (req, res) => {
 
     if (!username || !password || !email) {
       return res.status(400).json({
-        message: 'Username, email, and password cannot be empty',
+        message: 'Bad Request: Username, email, and password cannot be empty',
       });
     }
 
     const existingUserWithEmail = await userModel.findOne({ email });
 
     if (existingUserWithEmail) {
-      return res.status(400).json({ message: 'Email already exists' });
+      return res
+        .status(409)
+        .json({ message: 'Conflict: Email already exists' });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -38,12 +40,11 @@ const SignUp = async (req, res) => {
     newUser.stripeId = stripe.id;
     const token = GenerateToken(email);
     await sendWelcomeEmail(email, token);
-    
+
     await newUser.save();
-    
-    res.status(201).json({ message: 'User created successfully' });
+
+    res.status(201).json({ message: 'Created: User created successfully' });
   } catch (error) {
-    console.error('Error creating user:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

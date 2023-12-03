@@ -1,11 +1,11 @@
 import productModel from '../../models/product';
-import catchResponse from '../../utils/catch-response';
 
-const fetchAdminProducts = async (req, res) => {
+const FetchAdminProducts = async (req, res) => {
   try {
     const { limit, skip, filterObject } = req.query;
-    const limitValue = Number(limit);
-    const skipValue = Number(skip);
+
+    const limitValue = Number(limit) || 0;
+    const skipValue = Number(skip) || 0;
 
     const selector = {};
 
@@ -25,9 +25,11 @@ const fetchAdminProducts = async (req, res) => {
       totalCount,
     });
   } catch (error) {
-    error.statusCode = 401;
-    catchResponse({ res, err: error });
+    res.status(500).json({
+      message:
+        'Internal Server Error: Oops! An internal server error occurred. Please try again later.',
+    });
   }
 };
 
-export default fetchAdminProducts;
+export default FetchAdminProducts;

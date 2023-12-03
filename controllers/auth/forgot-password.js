@@ -1,5 +1,4 @@
 import { GenerateToken } from '../../middlewares/auth';
-
 import userModel from '../../models/user';
 import sendResetEmail from '../../utils/send-rest-email';
 
@@ -9,7 +8,7 @@ export const ForgotPassword = async (req, res) => {
 
     if (!email) {
       return res.status(400).json({
-        message: 'Email cannot be empty',
+        message: 'Bad Request: Email cannot be empty',
       });
     }
 
@@ -17,21 +16,24 @@ export const ForgotPassword = async (req, res) => {
 
     if (user) {
       const token = GenerateToken(email);
-       await userModel.updateOne({ email }, { $set: { tokenExpiry: false } });
+
+      await userModel.updateOne({ email }, { $set: { tokenExpiry: false } });
+
       await sendResetEmail(email, token);
-      return res.status(200).send('Email sent successfully');
+
+      return res.status(200).json({
+        message: 'Success: Email sent successfully',
+      });
     } else {
-      return res.status(401).json({
-        message: 'Invalid email. User not found.',
+      return res.status(404).json({
+        message: 'Not Found: User not found with the provided email',
       });
     }
   } catch (error) {
-    console.error('Error sending email:', error);
-    return res.status(400).json({
+    return res.status(500).json({
       message: 'Internal Server Error',
     });
   }
 };
 
 export default ForgotPassword;
-

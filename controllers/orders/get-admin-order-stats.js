@@ -14,6 +14,7 @@ const GetAdminOrderStats = async (req, res) => {
       totalAmount: amount,
     });
   } catch (error) {
+     console.error("Error getting admin order stats", error);
     res.status(500).json({
       message: `Oops! An internal server error occurred: ${error.message}`,
     });

@@ -1,23 +1,25 @@
 import userModel from '../../models/user';
 
 const VerifyUser = async (req, res) => {
-  console.log('In API', req.user.email);
-
   try {
     const { email } = req.user;
 
     const user = await userModel.findOne({ email });
 
     if (!user) {
-      return res.status(400);
+      return res.status(404).json({ message: 'Not Found: User not found' });
     } else {
+      if (user.isValidUser) {
+        return res
+          .status(200)
+          .json({ message: 'Success: User is already verified' });
+      }
+
       await userModel.updateOne({ email }, { $set: { isValidUser: true } });
     }
 
-    console.log({ user });
-    res.status(200).json({ message: 'Verification successful' });
+    res.status(200).json({ message: 'Success: Verification successful' });
   } catch (err) {
-    console.error('Error during user verification:', err);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

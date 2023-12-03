@@ -11,14 +11,14 @@ Agenda.define(
   'create-dashboard-stats',
   { concurrency: 1 },
   async (job, done) => {
-    console.log('*********  Create Dashboard Stats Job Started   *********');
+    // console.log('*********  Create Dashboard Stats Job Started   *********');
 
     job.attrs.state = JOB_STATES.STARTED;
     job.attrs.progress = 0;
     await job.save();
 
-    const { type } = job.attrs.data;
-    console.log('\n\n', { type });
+    // const { type } = job.attrs.data;
+    // console.log('\n\n', { type });
 
     try {
       job.attrs.state = JOB_STATES.IN_PROGRESS;
@@ -53,12 +53,12 @@ Agenda.define(
         },
       ]);
 
-      console.log(
-        '\n\n',
-        'TotalPaidOrders and Unpaid',
-        { totalPaidOrders },
-        { totalUnpaidOrders }
-      );
+      // console.log(
+      //   '\n\n',
+      //   'TotalPaidOrders and Unpaid',
+      //   { totalPaidOrders },
+      //   { totalUnpaidOrders }
+      // );
 
       const topSellingProducts = await ProductSchema.aggregate([
         {
@@ -69,7 +69,7 @@ Agenda.define(
         },
       ]);
 
-      console.log('Top selling products are:', topSellingProducts);
+      // console.log('Top selling products are:', topSellingProducts);
 
       // Function to calculate one year stats
       const calculateOneYearStats = async () => {
@@ -116,7 +116,7 @@ Agenda.define(
 
       const oneYearStats = await calculateOneYearStats();
 
-      console.log('\n\n', 'One Year Stats', { oneYearStats });
+      // console.log('\n\n', 'One Year Stats', { oneYearStats });
 
       job.attrs.progress = 50;
       await job.save();
@@ -139,7 +139,7 @@ Agenda.define(
         },
       ]);
 
-      console.log('\n\n', { todayStats });
+      // console.log('\n\n', { todayStats });
 
       job.attrs.progress = 50;
       await job.save();
@@ -162,7 +162,7 @@ Agenda.define(
         },
       ]);
 
-      console.log('\n\n', { sevenDayStats });
+      // console.log('\n\n', { sevenDayStats });
 
       job.attrs.progress = 75;
       await job.save();
@@ -184,7 +184,7 @@ Agenda.define(
           },
         },
       ]);
-      console.log('\n\n', { thirtyDayStats });
+      // console.log('\n\n', { thirtyDayStats });
 
       job.attrs.lockedAt = null;
       job.attrs.state = JOB_STATES.COMPLETED;
@@ -211,9 +211,9 @@ Agenda.define(
         }
       );
 
-      console.log('********  Create Dashboard Stats Job Completed   ********');
+      console.log('Dashboard Job Completed');
     } catch (error) {
-      console.log('***********  Create Dashboard Stats Job Retry  **********');
+      // console.log('***********  Create Dashboard Stats Job Retry  **********');
       console.log(error.message);
 
       job.attrs.state = JOB_STATES.FAILED;

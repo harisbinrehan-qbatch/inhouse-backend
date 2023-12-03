@@ -32,9 +32,8 @@ const GetAllOrders = async (req, res) => {
       totalCount
     });
   } catch (error) {
-    res.status(400).json({
-      message: `Oops! An internal server error occurred: ${error.message}`,
-    });
+      console.error('Error getting admin orders', error);
+      res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

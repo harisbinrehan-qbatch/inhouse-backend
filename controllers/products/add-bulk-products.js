@@ -7,13 +7,11 @@ const AddBulkProducts = async (req, res) => {
     let writeData = [];
     let successfulUploads = 0;
     let failedUploads = 0;
-    let failedIndices = [];
 
-    for (let i = 0; i < productsData.length; i += 1) {
+    for (let i = 0; i < productsData.length - 1; i += 1) {
       const [name, size, color, price, quantity, date, images] =
         productsData[i];
 
-      // Create an array to store the names of missing fields
       const missingFields = [];
 
       if (!name) missingFields.push('Name');
@@ -26,29 +24,40 @@ const AddBulkProducts = async (req, res) => {
 
       if (missingFields.length > 0) {
         errorArr.push({
-          row: i,
-          message: `Missing fields: ${missingFields.join(
-            ', '
-          )}`,
+          row: i + 2,
+          message: `Bad Request: Missing fields: ${missingFields.join(', ')}`,
         });
         failedUploads++;
-        failedIndices.push(i);
-        continue; 
+        continue;
       }
 
-      const productPrice = parseInt(price, 10);
-      const productStock = parseInt(quantity, 10);
       const productDate = new Date(date);
       const imageArray = images.split('\r\n').filter(Boolean);
 
-      if (productStock < 0 || productPrice < 0) {
+      const productPrice = parseFloat(price);
+      const isValidPrice = /^\d+(\.\d{1,2})?$/.test(price) && productPrice >= 0;
+
+      const productStock = parseFloat(quantity);
+      const isValidStock = Number.isInteger(productStock) && productStock >= 0;
+
+      if (!isValidPrice) {
         errorArr.push({
-          row: i,
-          message: 'Product Stock or Price cannot be negative',
+          row: i + 2,
+          message:
+            'Price should be a non-negative and can have 2 decimal places',
         });
         failedUploads++;
-        failedIndices.push(i);
-        continue; // Skip to the next iteration if there's a negative stock or price
+        continue;
+      }
+
+      if (!isValidStock) {
+        errorArr.push({
+          row: i + 2,
+          message:
+            'Quantity should be a non-negative integer value',
+        });
+        failedUploads++;
+        continue;
       }
 
       writeData.push({
@@ -72,7 +81,6 @@ const AddBulkProducts = async (req, res) => {
         try {
           await ProductModel.bulkWrite(writeData);
         } catch (err) {
-          // Handle bulk write errors if needed
           console.error('Bulk write error:', err);
         }
         writeData = [];
@@ -83,7 +91,6 @@ const AddBulkProducts = async (req, res) => {
       try {
         await ProductModel.bulkWrite(writeData);
       } catch (err) {
-        // Handle bulk write errors if needed
         console.error('Bulk write error:', err);
       }
     }
@@ -92,12 +99,17 @@ const AddBulkProducts = async (req, res) => {
       errorArr,
       successfulUploads,
       failedUploads,
-      failedIndices,
     };
 
-    return res.status(200).send({ bulkUploadResult });
+    return res
+      .status(201)
+      .json({ message: 'Created: Bulk upload completed', bulkUploadResult });
   } catch (err) {
-    res.status(500).send(err.message);
+    res
+      .status(500)
+      .json({
+        message: `Internal Server Error: Oops! An internal server error occurred. ${err.message}`,
+      });
   }
 };
 

@@ -1,5 +1,4 @@
 import NotificationModel from '../../models/notification';
-import catchResponse from '../../utils/catch-response';
 
 const placeNotification = async (req, res) => {
   try {
@@ -14,9 +13,10 @@ const placeNotification = async (req, res) => {
     const savedNotification = await newNotification.save();
 
     res.status(201).json(savedNotification);
-  } catch (error) {
-    error.statusCode = 500;
-    catchResponse({ res, err: error });
+  } catch (err) {
+    res.status(500).json({
+      message: `Internal Server Error: Oops! An internal server error occurred. ${err.message}`,
+    });
   }
 };
 

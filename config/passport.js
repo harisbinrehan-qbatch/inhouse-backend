@@ -1,5 +1,6 @@
 import passport from 'passport';
 import jwt from 'passport-jwt';
+import { PASSPORT_SECRET_KEY } from '../config/config';
 
 import User from '../models/user';
 
@@ -8,7 +9,7 @@ const ExtractJwt = jwt.ExtractJwt;
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'secretKey',
+  secretOrKey: PASSPORT_SECRET_KEY,
 };
 
 passport.use(

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 import NotificationModel from '../../models/notification';
-import catchResponse from '../../utils/catch-response';
 
 const readNotification = async (req, res) => {
   try {
@@ -18,13 +17,14 @@ const readNotification = async (req, res) => {
     );
 
     if (!updatedNotification) {
-      return res.status(404).json({ error: 'Notification not found' });
+      return res.status(404).json({ message: 'Notification not found' });
     }
 
     res.status(200).json(updatedNotification);
-  } catch (error) {
-    error.statusCode = 500;
-    catchResponse({ res, err: error });
+  } catch (err) {
+    res.status(500).json({
+      message: `Internal Server Error: Oops! An internal server error occurred. ${err.message}`,
+    });
   }
 };
 

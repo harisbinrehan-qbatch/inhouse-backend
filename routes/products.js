@@ -1,7 +1,7 @@
 import express from 'express';
-import multer from 'multer';
 import passport from 'passport';
 
+import multerConfig from '../middlewares/multerConfig';
 import {
   AddProduct,
   DeleteProduct,
@@ -12,23 +12,16 @@ import {
 } from '../controllers/products';
 
 const router = express.Router();
-const storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, 'uploads/');
-  },
-  filename: function (req, file, callback) {
-    callback(null, Date.now() + '-' + file.originalname);
-  },
-});
 
-const upload = multer({ storage: storage });
+const upload = multerConfig();
+
+router.get('/fetchUserProducts', FetchUserProducts);
 
 router.get(
-  '/fetchUserProducts',
-  FetchUserProducts
+  '/fetchAdminProducts',
+  passport.authenticate('jwt', { session: false }),
+  FetchAdminProducts
 );
-
-router.get('/fetchAdminProducts', FetchAdminProducts);
 
 router.post(
   '/addProduct',
@@ -36,13 +29,13 @@ router.post(
   upload.any(),
   AddProduct
 );
+
 router.post(
   '/addBulkProducts',
   passport.authenticate('jwt', { session: false }),
   upload.any(),
   AddBulkProducts
 );
-
 
 router.delete(
   '/deleteProduct',

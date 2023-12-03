@@ -35,8 +35,8 @@ const SetOrderAsDelivered = async (req, res) => {
       order: updatedOrder,
     });
   } catch (error) {
-    console.log('Error updating order as delivered', error);
-    res.status(400).json({ message: 'Internal Server Error' });
+    console.error('Error updating order as delivered', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

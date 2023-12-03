@@ -1,6 +1,6 @@
 import productModel from '../../models/product';
 
-const fetchUserProducts = async (req, res) => {
+const FetchUserProducts = async (req, res) => {
   try {
     const { limit, skip, filterObject } = req.query;
     let limitValue = 0;
@@ -60,11 +60,11 @@ const fetchUserProducts = async (req, res) => {
       totalCount,
     });
   } catch (error) {
-    console.error('An error occurred:', error);
     res.status(500).json({
-      message: 'Oops! An internal server error occurred.',
+      message:
+        'Internal Server Error: Oops! An internal server error occurred. Please try again later.',
     });
   }
 };
 
-export default fetchUserProducts;
+export default FetchUserProducts;

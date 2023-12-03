@@ -1,6 +1,5 @@
 import express from 'express';
 
-
 import ScriptActions from '../script-methods/script-actions';
 import { StripeActions } from '../controllers/stripe';
 

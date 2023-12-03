@@ -16,7 +16,7 @@ const ScriptMethods = async ({ method, ...rest }) => {
         .schedule('in 5 seconds')
         .save();
 
-      console.log('\n\n', 'Dashboard Job Has Been Started');
+      console.log('\n', 'Dashboard Job Has Been Started');
 
       break;
     }

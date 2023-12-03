@@ -9,22 +9,27 @@ const ResetPassword = async (req, res) => {
 
     const user = await userModel.findOne({ email });
 
-    if (user.tokenExpiry === true) {
-      return res.status(200).json({ message: 'Invalid or expired token' });
-    } else {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-      await UserSchema.updateOne(
-        { email },
-        { $set: { password: hashedPassword, tokenExpiry: true } }
-      );
-
-      res.status(200).json({ message: 'Password reset successfully' });
+    if (!user) {
+      return res.status(404).json({ message: 'Not Found: User not found' });
     }
+
+    if (user.tokenExpiry === true) {
+      return res
+        .status(401)
+        .json({ message: 'Unauthorized: Invalid or expired token' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await UserSchema.updateOne(
+      { email },
+      { $set: { password: hashedPassword, tokenExpiry: true } }
+    );
+
+    res.status(200).json({ message: 'Success: Password reset successfully' });
   } catch (err) {
-    console.error('Error resetting password:', err);
-    res.status(400).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

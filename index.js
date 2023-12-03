@@ -2,12 +2,11 @@ import express from 'express';
 import cors from 'cors';
 
 import 'dotenv/config';
-import './jobs/definitions'
-// import './config/database';
+import './jobs/definitions';
 import { PORT } from './config/config';
 import router from './routes';
 import AgendaJobs from './jobs/config';
-import './config'
+import './config';
 
 const app = express();
 
@@ -26,4 +25,3 @@ app.listen(PORT, async () => {
   AgendaJobs.start();
   console.log(`app is listening to port ${PORT}`);
 });
-

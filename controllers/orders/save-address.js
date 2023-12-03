@@ -33,7 +33,7 @@ const SaveAddress = async (req, res) => {
       await newAddress.save();
     }
 
-    res.status(200).json({ message: 'Address has been saved successfully' });
+    res.status(201).json({ message: 'Address has been saved successfully' });
   } catch (error) {
     console.error('Error saving address', error);
     res.status(500).json({ message: 'Internal Server Error' });

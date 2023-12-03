@@ -6,8 +6,8 @@ const GetOrderStats = async (req, res) => {
     
     res.status(200).json({ data: statistics });
   } catch (error) {
-    console.log('Error retrieving statistics', error);
-    res.status(400).json({ error: 'Internal Server Error' });
+    console.error('Error retrieving statistics', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

@@ -9,7 +9,7 @@ const StripeActions = async (req, res) => {
       await SetStatusPaidOnChargeCustomer(req);
     }
 
-       res.status(200).json('OK');
+    res.status(200).json('OK');
   } catch (error) {
     console.error('Error in StripeActions:', error.message);
     res.status(500).send('Internal Server Error');

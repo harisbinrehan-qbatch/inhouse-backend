@@ -8,40 +8,45 @@ export const SignIn = async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({
-        message: 'Email or password cannot be empty',
+        message: 'Bad Request: Email or password cannot be empty',
       });
     }
 
     const user = await userModel.findOne({ email });
 
-    if (user && user.isValidUser === true) {
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!user) {
+      return res.status(404).json({
+        message: 'Not Found: User not found',
+      });
+    }
 
-      if (isPasswordValid) {
-        const { username, _id, stripeId, email, mobile, isAdmin } = user;
-        const token = GenerateToken(email);
-        res.status(200).json({
-          username,
-          userId: _id,
-          stripeId,
-          email,
-          token,
-          mobile,
-          isAdmin,
-        });
-      } else {
-        res.status(401).json({
-          message: 'Invalid credentials',
-        });
-      }
+    if (!user.isValidUser) {
+      return res.status(401).json({
+        message: 'Unauthorized: User account is not valid',
+      });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (isPasswordValid) {
+      const { username, _id, stripeId, email, mobile, isAdmin } = user;
+      const token = GenerateToken(email);
+      return res.status(200).json({
+        username,
+        userId: _id,
+        stripeId,
+        email,
+        token,
+        mobile,
+        isAdmin,
+      });
     } else {
-      res.status(404).json({
-        message: 'User not found',
+      return res.status(401).json({
+        message: 'Unauthorized: Invalid credentials',
       });
     }
   } catch (error) {
-    console.error('Error signing in:', error);
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Internal Server Error',
     });
   }

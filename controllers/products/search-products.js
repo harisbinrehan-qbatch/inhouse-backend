@@ -3,9 +3,11 @@ import productModel from '../../models/product';
 const SearchProducts = async (req, res) => {
   try {
     const { name } = req.query;
+
     if (!name) {
-      return res.status(404).json({
-        message: 'Name parameter is required for searching products.',
+      return res.status(400).json({
+        message:
+          'Bad Request: Name parameter is required for searching products.',
       });
     }
 
@@ -17,7 +19,6 @@ const SearchProducts = async (req, res) => {
 
     res.status(200).json({ products });
   } catch (error) {
-    console.error('Error searching products:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

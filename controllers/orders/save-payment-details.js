@@ -37,10 +37,10 @@ const SavePaymentDetails = async (req, res) => {
       }
     );
 
-    return res.status(200).json('Payment details saved successfully');
+    return res.status(201).json('Payment details saved successfully');
   } catch (error) {
-    console.log('Error saving or updating payment details', error);
-    res.status(400).json({ message: 'Internal Server Error' });
+    console.error('Error saving or updating payment details', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

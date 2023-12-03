@@ -3,7 +3,7 @@ import express from 'express';
 import auth from './auth';
 import products from './products';
 import orders from './orders';
-import notifications from './notifications'
+import notifications from './notifications';
 import nonAuthenticatedRouter from './non-authenticated-routes';
 
 const router = express.Router();

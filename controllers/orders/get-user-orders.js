@@ -18,7 +18,8 @@ const GetUserOrders = async (req, res) => {
       totalCount,
     });
   } catch (error) {
-    return res.status(400).json({ message: 'Internal Server Error' });
+    console.error('Error retrieving user orders', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
