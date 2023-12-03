@@ -1,5 +1,6 @@
-import userModel from '../../models/user';
 import { GenerateToken } from '../../middlewares/auth';
+
+import userModel from '../../models/user';
 import sendResetEmail from '../../utils/send-rest-email';
 
 export const ForgotPassword = async (req, res) => {
@@ -12,10 +13,11 @@ export const ForgotPassword = async (req, res) => {
       });
     }
 
-    const result = await userModel.findOne({ email });
+    const user = await userModel.findOne({ email });
 
-    if (result) {
+    if (user) {
       const token = GenerateToken(email);
+       await userModel.updateOne({ email }, { $set: { tokenExpiry: false } });
       await sendResetEmail(email, token);
       return res.status(200).send('Email sent successfully');
     } else {

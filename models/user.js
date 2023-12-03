@@ -27,7 +27,14 @@ const User = new mongoose.Schema({
     type: String,
     default: '',
   },
-  
+  tokenExpiry: {
+    type: Boolean,
+    default: true,
+  },
+  isValidUser: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const userModel = new mongoose.model('users', User);
