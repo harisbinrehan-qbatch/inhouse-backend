@@ -12,22 +12,22 @@ export const SignIn = async (req, res) => {
       });
     }
 
-    const result = await userModel.findOne({ email });
+    const user = await userModel.findOne({ email });
 
-    if (result) {
-      const isPasswordValid = await bcrypt.compare(password, result.password);
+    if (user && user.isValidUser === true) {
+      const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (isPasswordValid) {
+        const { username, _id, stripeId, email, mobile, isAdmin } = user;
         const token = GenerateToken(email);
         res.status(200).json({
-          username: result.username,
-          userId: result._id,
-          stripeId: result.stripeId,
-          email: result.email,
-          token: token,
-          mobile: result.mobile,
-          isAdmin: result.isAdmin,
-          image: result.image,
+          username,
+          userId: _id,
+          stripeId,
+          email,
+          token,
+          mobile,
+          isAdmin,
         });
       } else {
         res.status(401).json({
@@ -35,7 +35,7 @@ export const SignIn = async (req, res) => {
         });
       }
     } else {
-      res.status(401).json({
+      res.status(404).json({
         message: 'User not found',
       });
     }

@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import userModel from '../../models/user';
 import { stripeSecretKeyClient } from '../../config/config';
 import sendWelcomeEmail from '../../utils/welcome-email';
+import { GenerateToken } from '../../middlewares/auth';
 
 const SignUp = async (req, res) => {
   try {
@@ -35,10 +36,11 @@ const SignUp = async (req, res) => {
     });
 
     newUser.stripeId = stripe.id;
+    const token = GenerateToken(email);
+    await sendWelcomeEmail(email, token);
+    
     await newUser.save();
-
-    await sendWelcomeEmail(email);
-
+    
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     console.error('Error creating user:', error);

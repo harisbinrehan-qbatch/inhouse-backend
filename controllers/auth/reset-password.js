@@ -4,11 +4,8 @@ import userModel from '../../models/user';
 
 const ResetPassword = async (req, res) => {
   try {
-    const token = req.body.token || '';
     const email = req.user.email || '';
     const newPassword = req.body.newPassword;
-
-    console.log({ token });
 
     const user = await userModel.findOne({ email });
 
