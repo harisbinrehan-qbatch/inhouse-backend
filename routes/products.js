@@ -46,6 +46,7 @@ router.delete(
 router.put(
   '/updateProduct',
   passport.authenticate('jwt', { session: false }),
+  upload.any(),
   UpdateProduct
 );
 

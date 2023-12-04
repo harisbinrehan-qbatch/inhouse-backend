@@ -10,9 +10,10 @@ const StripeActions = async (req, res) => {
     }
 
     res.status(200).json('OK');
-  } catch (error) {
-    console.error('Error in StripeActions:', error.message);
-    res.status(500).send('Internal Server Error');
+  } catch (err) {
+    res
+      .status(500)
+      .json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 

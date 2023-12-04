@@ -25,7 +25,7 @@ const AddBulkProducts = async (req, res) => {
       if (missingFields.length > 0) {
         errorArr.push({
           row: i + 2,
-          message: `Bad Request: Missing fields: ${missingFields.join(', ')}`,
+          message: `Bad Request: Missing fields: ${missingFields.join(', ')}`
         });
         failedUploads++;
         continue;
@@ -44,7 +44,7 @@ const AddBulkProducts = async (req, res) => {
         errorArr.push({
           row: i + 2,
           message:
-            'Price should be a non-negative and can have 2 decimal places',
+            'Price should be a non-negative and can have 2 decimal places'
         });
         failedUploads++;
         continue;
@@ -53,8 +53,7 @@ const AddBulkProducts = async (req, res) => {
       if (!isValidStock) {
         errorArr.push({
           row: i + 2,
-          message:
-            'Quantity should be a non-negative integer value',
+          message: 'Quantity should be a non-negative integer value'
         });
         failedUploads++;
         continue;
@@ -70,9 +69,9 @@ const AddBulkProducts = async (req, res) => {
             price,
             date: productDate,
             sold: 0,
-            images: imageArray,
-          },
-        },
+            images: imageArray
+          }
+        }
       });
 
       successfulUploads++;
@@ -98,7 +97,7 @@ const AddBulkProducts = async (req, res) => {
     const bulkUploadResult = {
       errorArr,
       successfulUploads,
-      failedUploads,
+      failedUploads
     };
 
     return res
@@ -107,9 +106,7 @@ const AddBulkProducts = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({
-        message: `Oops! An internal server error occurred. ${err.message}`,
-      });
+      .json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 

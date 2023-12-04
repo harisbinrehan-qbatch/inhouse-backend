@@ -7,7 +7,9 @@ export const ForgotPassword = async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-      return res.status(400).json({message: 'Bad Request: Email cannot be empty'});
+      return res
+        .status(400)
+        .json({ message: 'Bad Request: Email cannot be empty' });
     }
 
     const user = await userModel.findOne({ email });
@@ -19,11 +21,15 @@ export const ForgotPassword = async (req, res) => {
 
       await sendResetEmail(email, token);
 
-      return res.status(200).json({message: 'Success: Email sent successfully'});
+      return res
+        .status(200)
+        .json({ message: 'Success: Email sent successfully' });
     } else {
-      return res.status(404).json({message: 'Not Found: User not found with the provided email'});
+      return res
+        .status(404)
+        .json({ message: 'Not Found: User not found with the provided email' });
     }
-  }  catch (err) {
+  } catch (err) {
     res
       .status(500)
       .json({message: `Oops! An internal server error occurred. ${err.message}`});

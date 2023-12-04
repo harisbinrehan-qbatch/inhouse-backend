@@ -29,7 +29,7 @@ const sendWelcomeEmail = async (email, token) => {
 
     console.log('Message sent: %s', info.messageId);
   } catch (error) {
-    console.log('Error sending welcome email:', error);
+    console.error('Error sending welcome email:', error);
   }
 };
 

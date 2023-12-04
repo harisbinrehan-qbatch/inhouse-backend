@@ -11,7 +11,9 @@ const SignUp = async (req, res) => {
 } = req.body;
 
     if (!username || !password || !email) {
-      return res.status(400).json({message: 'Bad Request: Username, email, and password cannot be empty'});
+      return res
+        .status(400)
+        .json({message: 'Bad Request: Username, email, and password cannot be empty'});
     }
 
     const existingUserWithEmail = await userModel.findOne({ email });
@@ -26,7 +28,10 @@ const SignUp = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new userModel({
-      username, email, password: hashedPassword, mobile
+      username,
+      email,
+      password: hashedPassword,
+      mobile
     });
 
     const stripe = await stripeSecretKeyClient.customers.create({

@@ -22,11 +22,11 @@ const OrderSchema = new mongoose.Schema(
       required: true
     },
     totalProducts: {
-      type: String,
+      type: Number,
       required: true
     },
     total: {
-      type: String,
+      type: Number,
       required: true
     },
     isPaid: {

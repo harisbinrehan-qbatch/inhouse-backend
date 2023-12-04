@@ -63,7 +63,7 @@ Agenda.define(
               $group: {
                 _id: null,
                 totalOrders: {$sum: 1},
-                totalSales: {$sum: { $toDouble: '$total' }}
+                totalSales: {$sum:  '$total' }
               }
             }
           ]);
@@ -80,8 +80,6 @@ Agenda.define(
 
       const oneYearStats = await calculateOneYearStats();
 
-      // console.log('\n\n', 'One Year Stats', { oneYearStats });
-
       job.attrs.progress = 50;
       await job.save();
 
@@ -93,13 +91,11 @@ Agenda.define(
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
-            totalUnits: { $sum: { $toDouble: '$totalProducts' } },
-            totalSales: { $sum: { $toDouble: '$total' } }
+            totalUnits: { $sum: '$totalProducts'  },
+            totalSales: { $sum: '$total'  }
           }
         }
       ]);
-
-      // console.log('\n\n', { todayStats });
 
       job.attrs.progress = 50;
       await job.save();
@@ -112,13 +108,11 @@ Agenda.define(
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
-            totalUnits: { $sum: { $toDouble: '$totalProducts' } },
-            totalSales: { $sum: { $toDouble: '$total' } }
+            totalUnits: { $sum: '$totalProducts'  },
+            totalSales: { $sum:  '$total'  }
           }
         }
       ]);
-
-      // console.log('\n\n', { sevenDayStats });
 
       job.attrs.progress = 75;
       await job.save();
@@ -131,12 +125,11 @@ Agenda.define(
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
-            totalUnits: { $sum: { $toDouble: '$totalProducts' } },
-            totalSales: { $sum: { $toDouble: '$total' } }
+            totalUnits: { $sum:  '$totalProducts'  },
+            totalSales: { $sum: '$total' }
           }
         }
       ]);
-      // console.log('\n\n', { thirtyDayStats });
 
       job.attrs.lockedAt = null;
       job.attrs.state = JOB_STATES.COMPLETED;
@@ -147,8 +140,8 @@ Agenda.define(
         {_id: '6544e40a11a33d8ec197c7b9'},
         {
           $set: {
-            totalPaidOrders: totalPaidOrders[0].count,
-            totalUnpaidOrders: totalUnpaidOrders[0].count,
+            totalPaidOrders: totalPaidOrders[0]?.count || 0,
+            totalUnpaidOrders: totalUnpaidOrders[0]?.count || 0,
             todayStats: todayStats[0],
             sevenDayStats: sevenDayStats[0],
             thirtyDayStats: thirtyDayStats[0],
@@ -159,11 +152,7 @@ Agenda.define(
         {upsert: true}
       );
 
-      console.log('Dashboard Job Completed');
     } catch (error) {
-      // console.log('***********  Create Dashboard Stats Job Retry  **********');
-      console.log(error.message);
-
       job.attrs.state = JOB_STATES.FAILED;
       job.attrs.failedAt = new Date();
       job.attrs.failReason = error.message;

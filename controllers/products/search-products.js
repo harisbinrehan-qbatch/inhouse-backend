@@ -13,11 +13,13 @@ const SearchProducts = async (req, res) => {
 
     const regex = new RegExp('^' + name, 'i');
 
-    const products = await productModel.find({name: { $regex: regex }});
+    const products = await productModel.find({ name: { $regex: regex } });
 
     res.status(200).json({ products });
-  } catch (error) {
-    res.status(500).json({ message: 'Internal Server Error' });
+  } catch (err) {
+    res
+      .status(500)
+      .json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 
