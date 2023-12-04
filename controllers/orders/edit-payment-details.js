@@ -14,9 +14,10 @@ const EditPaymentDetails = async (req, res) => {
     );
 
     res.status(200).json({ message: 'Payment details updated successfully' });
-  } catch (error) {
-    console.error('Error updating payment details', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+  } catch (err) {
+    res.status(500).json({
+      message: `Oops! An internal server error occurred. ${err.message}`,
+    });
   }
 };
 

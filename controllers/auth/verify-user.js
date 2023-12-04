@@ -20,7 +20,9 @@ const VerifyUser = async (req, res) => {
 
     res.status(200).json({ message: 'Success: Verification successful' });
   } catch (err) {
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({
+      message: `Oops! An internal server error occurred. ${err.message}`,
+    });
   }
 };
 

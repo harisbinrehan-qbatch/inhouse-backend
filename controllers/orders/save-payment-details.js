@@ -26,21 +26,19 @@ const SavePaymentDetails = async (req, res) => {
       },
     });
 
-    await stripeSecretKeyClient.customers.createSource(
-      stripeId,
-      {
-        source: card.id,
-        metadata: {
-          cardNumber: paymentDetails.cardNumber,
-          userStripeId: stripeId,
-        },
-      }
-    );
+    await stripeSecretKeyClient.customers.createSource(stripeId, {
+      source: card.id,
+      metadata: {
+        cardNumber: paymentDetails.cardNumber,
+        userStripeId: stripeId,
+      },
+    });
 
     return res.status(201).json('Payment details saved successfully');
-  } catch (error) {
-    console.error('Error saving or updating payment details', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+  } catch (err) {
+    res.status(500).json({
+      message: `Oops! An internal server error occurred. ${err.message}`,
+    });
   }
 };
 

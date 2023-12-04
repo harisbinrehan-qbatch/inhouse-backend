@@ -44,7 +44,6 @@ const PlaceOrder = async (req, res) => {
         console.error(`Error updating product ${product._id}:`, error);
         res.status(500).json({ message: 'Internal Server Error' });
       }
-
     });
 
     await Promise.all(updateProductPromises);
@@ -79,9 +78,10 @@ const PlaceOrder = async (req, res) => {
     const savedNotification = await adminNotification.save();
 
     res.status(201).json({ message: 'Order placed successfully', orderId });
-  } catch (error) {
-    console.error('Error in PlaceOrder:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+  } catch (err) {
+    res.status(500).json({
+      message: `Oops! An internal server error occurred. ${err.message}`,
+    });
   }
 };
 

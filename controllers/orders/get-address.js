@@ -7,9 +7,10 @@ const GetAddress = async (req, res) => {
     const addresses = await AddressModel.find({ userId });
 
     res.status(200).json({ addresses });
-  } catch (error) {
-    console.error('Error retrieving addresses', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+  } catch (err) {
+    res.status(500).json({
+      message: `Oops! An internal server error occurred. ${err.message}`,
+    });
   }
 };
 

@@ -29,10 +29,12 @@ export const ForgotPassword = async (req, res) => {
         message: 'Not Found: User not found with the provided email',
       });
     }
-  } catch (error) {
-    return res.status(500).json({
-      message: 'Internal Server Error',
-    });
+  }  catch (err) {
+    res
+      .status(500)
+      .json({
+        message: `Oops! An internal server error occurred. ${err.message}`,
+      });
   }
 };
 

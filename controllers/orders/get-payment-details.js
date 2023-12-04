@@ -24,9 +24,10 @@ const GetPaymentDetails = async (req, res) => {
     }));
 
     res.status(200).json({ allPaymentMethods });
-  } catch (error) {
-    console.error('Error retrieving payment details', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+  } catch (err) {
+    res.status(500).json({
+      message: `Oops! An internal server error occurred. ${err.message}`,
+    });
   }
 };
 

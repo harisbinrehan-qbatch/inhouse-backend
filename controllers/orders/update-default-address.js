@@ -3,7 +3,7 @@ import AddressModel from '../../models/address';
 const UpdateDefaultAddress = async (req, res) => {
   try {
     const { userId, index } = req.body;
-    
+
     const existingAddress = await AddressModel.findOne({ userId });
 
     if (existingAddress) {
@@ -24,9 +24,10 @@ const UpdateDefaultAddress = async (req, res) => {
     res
       .status(200)
       .json({ message: 'Default address has been updated successfully' });
-  } catch (error) {
-    console.error('Error updating default address', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+  } catch (err) {
+    res.status(500).json({
+      message: `Oops! An internal server error occurred. ${err.message}`,
+    });
   }
 };
 

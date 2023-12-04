@@ -5,10 +5,10 @@ const ScriptMethods = async ({ method, ...rest }) => {
   console.log('\n\n', { rest });
 
   switch (method) {
-    case 'StartDashboardJob': {
-      Agenda.create('create-dashboard-stats', {
-        type: 'DashboardJob',
-      })
+  case 'StartDashboardJob': {
+    Agenda.create('create-dashboard-stats', {
+      type: 'DashboardJob',
+    })
         .unique({
           'data.type': 'DashboardJob',
         })
@@ -16,10 +16,10 @@ const ScriptMethods = async ({ method, ...rest }) => {
         .schedule('in 5 seconds')
         .save();
 
-      console.log('\n', 'Dashboard Job Has Been Started');
+    console.log('\n', 'Dashboard Job Has Been Started');
 
-      break;
-    }
+    break;
+  }
   }
 };
 
