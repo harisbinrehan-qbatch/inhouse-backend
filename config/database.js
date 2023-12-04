@@ -4,7 +4,7 @@ import { MONGO_URL } from './config';
 
 const options = {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 };
 
 (function SetupDatabase() {

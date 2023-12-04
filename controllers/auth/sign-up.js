@@ -6,12 +6,12 @@ import { GenerateToken } from '../../middlewares/auth';
 
 const SignUp = async (req, res) => {
   try {
-    const { username, email, password, mobile } = req.body;
+    const {
+ username, email, password, mobile
+} = req.body;
 
     if (!username || !password || !email) {
-      return res.status(400).json({
-        message: 'Bad Request: Username, email, and password cannot be empty',
-      });
+      return res.status(400).json({message: 'Bad Request: Username, email, and password cannot be empty'});
     }
 
     const existingUserWithEmail = await userModel.findOne({ email });
@@ -26,15 +26,12 @@ const SignUp = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new userModel({
-      username,
-      email,
-      password: hashedPassword,
-      mobile,
+      username, email, password: hashedPassword, mobile
     });
 
     const stripe = await stripeSecretKeyClient.customers.create({
       name: newUser.username,
-      email: newUser.email,
+      email: newUser.email
     });
 
     newUser.stripeId = stripe.id;
@@ -45,9 +42,7 @@ const SignUp = async (req, res) => {
 
     res.status(201).json({ message: 'Created: User created successfully' });
   } catch (err) {
-    res.status(500).json({
-      message: `Oops! An internal server error occurred. ${err.message}`,
-    });
+    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 

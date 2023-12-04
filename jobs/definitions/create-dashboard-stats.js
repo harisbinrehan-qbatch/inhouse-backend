@@ -1,5 +1,4 @@
 import moment from 'moment';
-
 import Agenda from '../config';
 import { JOB_STATES } from '../utils';
 
@@ -11,14 +10,9 @@ Agenda.define(
   'create-dashboard-stats',
   { concurrency: 1 },
   async (job, done) => {
-    // console.log('*********  Create Dashboard Stats Job Started   *********');
-
     job.attrs.state = JOB_STATES.STARTED;
     job.attrs.progress = 0;
     await job.save();
-
-    // const { type } = job.attrs.data;
-    // console.log('\n\n', { type });
 
     try {
       job.attrs.state = JOB_STATES.IN_PROGRESS;
@@ -26,52 +20,30 @@ Agenda.define(
       await job.save();
 
       const totalPaidOrders = await OrderSchema.aggregate([
-        {
-          $match: {
-            isPaid: true,
-          },
-        },
+        {$match: {isPaid: true}},
         {
           $group: {
             _id: null,
-            count: { $sum: 1 },
-          },
-        },
+            count: { $sum: 1 }
+          }
+        }
       ]);
 
       const totalUnpaidOrders = await OrderSchema.aggregate([
-        {
-          $match: {
-            isPaid: false,
-          },
-        },
+        {$match: {isPaid: false}},
         {
           $group: {
             _id: null,
-            count: { $sum: 1 },
-          },
-        },
+            count: { $sum: 1 }
+          }
+        }
       ]);
-
-      // console.log(
-      //   '\n\n',
-      //   'TotalPaidOrders and Unpaid',
-      //   { totalPaidOrders },
-      //   { totalUnpaidOrders }
-      // );
 
       const topSellingProducts = await ProductSchema.aggregate([
-        {
-          $sort: { sold: -1 },
-        },
-        {
-          $limit: 10,
-        },
+        {$sort: { sold: -1 }},
+        {$limit: 10}
       ]);
 
-      // console.log('Top selling products are:', topSellingProducts);
-
-      // Function to calculate one year stats
       const calculateOneYearStats = async () => {
         const oneYearStats = [];
 
@@ -86,28 +58,20 @@ Agenda.define(
             .toDate();
 
           const monthlyStats = await OrderSchema.aggregate([
-            {
-              $match: {
-                date: { $gte: startOfMonth, $lte: endOfMonth },
-              },
-            },
+            {$match: {date: { $gte: startOfMonth, $lte: endOfMonth }}},
             {
               $group: {
                 _id: null,
-                totalOrders: {
-                  $sum: 1,
-                },
-                totalSales: {
-                  $sum: { $toDouble: '$total' },
-                },
-              },
-            },
+                totalOrders: {$sum: 1},
+                totalSales: {$sum: { $toDouble: '$total' }}
+              }
+            }
           ]);
 
           oneYearStats.push({
             month: moment(startOfMonth).format('MMM'),
             totalOrders: monthlyStats[0]?.totalOrders || 0,
-            totalSales: monthlyStats[0]?.totalSales || 0,
+            totalSales: monthlyStats[0]?.totalSales || 0
           });
         }
 
@@ -124,19 +88,15 @@ Agenda.define(
       let startDate = moment().startOf('day').toDate();
       let endDate = moment().endOf('day').toDate();
       const todayStats = await OrderSchema.aggregate([
-        {
-          $match: {
-            date: { $gte: startDate, $lte: endDate },
-          },
-        },
+        {$match: {date: { $gte: startDate, $lte: endDate }}},
         {
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
             totalUnits: { $sum: { $toDouble: '$totalProducts' } },
-            totalSales: { $sum: { $toDouble: '$total' } },
-          },
-        },
+            totalSales: { $sum: { $toDouble: '$total' } }
+          }
+        }
       ]);
 
       // console.log('\n\n', { todayStats });
@@ -147,19 +107,15 @@ Agenda.define(
       startDate = moment().subtract(7, 'days').toDate();
       endDate = moment().toDate();
       const sevenDayStats = await OrderSchema.aggregate([
-        {
-          $match: {
-            date: { $gte: startDate, $lte: endDate },
-          },
-        },
+        {$match: {date: { $gte: startDate, $lte: endDate }}},
         {
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
             totalUnits: { $sum: { $toDouble: '$totalProducts' } },
-            totalSales: { $sum: { $toDouble: '$total' } },
-          },
-        },
+            totalSales: { $sum: { $toDouble: '$total' } }
+          }
+        }
       ]);
 
       // console.log('\n\n', { sevenDayStats });
@@ -170,19 +126,15 @@ Agenda.define(
       startDate = moment().subtract(30, 'days').toDate();
       endDate = moment().toDate();
       const thirtyDayStats = await OrderSchema.aggregate([
-        {
-          $match: {
-            date: { $gte: startDate, $lte: endDate },
-          },
-        },
+        {$match: {date: { $gte: startDate, $lte: endDate }}},
         {
           $group: {
             _id: null,
             totalOrders: { $sum: 1 },
             totalUnits: { $sum: { $toDouble: '$totalProducts' } },
-            totalSales: { $sum: { $toDouble: '$total' } },
-          },
-        },
+            totalSales: { $sum: { $toDouble: '$total' } }
+          }
+        }
       ]);
       // console.log('\n\n', { thirtyDayStats });
 
@@ -192,9 +144,7 @@ Agenda.define(
       await job.save();
 
       await DashboardStats.updateOne(
-        {
-          _id: '6544e40a11a33d8ec197c7b9',
-        },
+        {_id: '6544e40a11a33d8ec197c7b9'},
         {
           $set: {
             totalPaidOrders: totalPaidOrders[0].count,
@@ -203,12 +153,10 @@ Agenda.define(
             sevenDayStats: sevenDayStats[0],
             thirtyDayStats: thirtyDayStats[0],
             oneYearStats,
-            topSelling: topSellingProducts,
-          },
+            topSelling: topSellingProducts
+          }
         },
-        {
-          upsert: true,
-        }
+        {upsert: true}
       );
 
       console.log('Dashboard Job Completed');

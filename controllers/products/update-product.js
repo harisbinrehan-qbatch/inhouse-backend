@@ -7,9 +7,7 @@ const UpdateProduct = async (req, res) => {
     const existingProduct = await productModel.findById(_id);
 
     if (!existingProduct) {
-      return res.status(404).json({
-        message: 'Not Found: Product not found.',
-      });
+      return res.status(404).json({message: 'Not Found: Product not found.'});
     }
 
     if (productData.name !== '') {
@@ -38,12 +36,10 @@ const UpdateProduct = async (req, res) => {
 
     return res.status(200).json({
       message: 'Success: Product updated successfully.',
-      products: allProducts,
+      products: allProducts
     });
   } catch (error) {
-    res.status(500).json({
-      message: `Internal Server Error: Oops! An internal server error occurred. ${error.message}`,
-    });
+    res.status(500).json({message: `Internal Server Error: Oops! An internal server error occurred. ${error.message}`});
   }
 };
 

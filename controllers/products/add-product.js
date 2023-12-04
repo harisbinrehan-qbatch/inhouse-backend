@@ -11,7 +11,9 @@ const AddProduct = async (req, res) => {
         .json({ message: 'Bad Request: Request body must contain obj field' });
     }
 
-    const { name, size, color, price, quantity } = req.body.obj;
+    const {
+ name, size, color, price, quantity
+} = req.body.obj;
 
     if (!name || !size || !color || !price || !quantity) {
       // Changed status code from 422 to 400 for more accurate response
@@ -31,9 +33,7 @@ const AddProduct = async (req, res) => {
       // Changed status code from 422 to 400 for more accurate response
       return res
         .status(400)
-        .json({
-          message: 'Bad Request: Quantity must be a non-negative integer',
-        });
+        .json({message: 'Bad Request: Quantity must be a non-negative integer'});
     }
 
     if (req.files && Array.isArray(req.files)) {
@@ -50,7 +50,7 @@ const AddProduct = async (req, res) => {
       color,
       price,
       quantity,
-      images,
+      images
     });
 
     await newProduct.save();
@@ -62,7 +62,7 @@ const AddProduct = async (req, res) => {
       .status(500)
       .json({
         message:
-          'Internal Server Error: Oops! An internal server error occurred.',
+          'Internal Server Error: Oops! An internal server error occurred.'
       });
   }
 };

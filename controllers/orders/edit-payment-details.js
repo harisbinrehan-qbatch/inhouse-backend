@@ -9,15 +9,13 @@ const EditPaymentDetails = async (req, res) => {
       cardStripeId,
       {
         exp_month: paymentDetails.exp_month,
-        exp_year: paymentDetails.exp_year,
+        exp_year: paymentDetails.exp_year
       }
     );
 
     res.status(200).json({ message: 'Payment details updated successfully' });
   } catch (err) {
-    res.status(500).json({
-      message: `Oops! An internal server error occurred. ${err.message}`,
-    });
+    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 

@@ -3,24 +3,24 @@ import mongoose from 'mongoose';
 const NotificationSchema = new mongoose.Schema({
   userId: {
     type: String,
-    required: true,
+    required: true
   },
   text: {
     type: String,
-    required: true,
+    required: true
   },
   isRead: {
     type: Boolean,
-    required: true,
+    required: true
   },
   forAdmin: {
     type: Boolean,
-    required: true,
+    required: true
   },
   date: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
 const NotificationModel = mongoose.model('notification', NotificationSchema);

@@ -8,7 +8,7 @@ import {
   UpdateProduct,
   FetchUserProducts,
   FetchAdminProducts,
-  AddBulkProducts,
+  AddBulkProducts
 } from '../controllers/products';
 
 const router = express.Router();

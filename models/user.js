@@ -3,38 +3,34 @@ import mongoose from 'mongoose';
 const User = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    required: true
   },
   email: {
     type: String,
-    required: true,
+    required: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
   },
   mobile: {
     type: String,
-    required: true,
+    required: true
   },
-  image: {
-    type: String,
-  },
-  isAdmin: {
-    type: Boolean,
-  },
+  image: {type: String},
+  isAdmin: {type: Boolean},
   stripeId: {
     type: String,
-    default: '',
+    default: ''
   },
   tokenExpiry: {
     type: Boolean,
-    default: true,
+    default: true
   },
   isValidUser: {
     type: Boolean,
-    default: false,
-  },
+    default: false
+  }
 });
 
 const userModel = new mongoose.model('users', User);

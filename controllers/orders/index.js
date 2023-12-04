@@ -25,5 +25,5 @@ export {
   SavePaymentDetails,
   GetPaymentDetails,
   EditPaymentDetails,
-  DeletePaymentDetails,
+  DeletePaymentDetails
 };

@@ -7,15 +7,13 @@ const SearchProducts = async (req, res) => {
     if (!name) {
       return res.status(400).json({
         message:
-          'Bad Request: Name parameter is required for searching products.',
+          'Bad Request: Name parameter is required for searching products.'
       });
     }
 
     const regex = new RegExp('^' + name, 'i');
 
-    const products = await productModel.find({
-      name: { $regex: regex },
-    });
+    const products = await productModel.find({name: { $regex: regex }});
 
     res.status(200).json({ products });
   } catch (error) {

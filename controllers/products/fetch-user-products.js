@@ -31,7 +31,7 @@ const FetchUserProducts = async (req, res) => {
     ) {
       selector.price = {
         $gte: Number(filterObject.price[0]),
-        $lte: Number(filterObject.price[1]),
+        $lte: Number(filterObject.price[1])
       };
     }
 
@@ -57,12 +57,12 @@ const FetchUserProducts = async (req, res) => {
 
     res.status(200).json({
       products,
-      totalCount,
+      totalCount
     });
   } catch (error) {
     res.status(500).json({
       message:
-        'Internal Server Error: Oops! An internal server error occurred. Please try again later.',
+        'Internal Server Error: Oops! An internal server error occurred. Please try again later.'
     });
   }
 };

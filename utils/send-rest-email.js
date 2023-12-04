@@ -8,8 +8,8 @@ const sendResetEmail = async (email, token) => {
     secure: false,
     auth: {
       user: 'harisbinrehan@gmail.com',
-      pass: 'sioj kqua nzey ybqu',
-    },
+      pass: 'sioj kqua nzey ybqu'
+    }
   });
 
   const info = await transporter.sendMail({
@@ -23,7 +23,7 @@ const sendResetEmail = async (email, token) => {
       <p> <a href='http://localhost:3000/auth/newPassword?token=${token}'>Click Here</a></p>
       <p>If you did not request a password reset, you can ignore this email.</p>
       <p>Thank you.</p>
-    `,
+    `
   });
   console.log('Message sent: %s', info.messageId);
 };

@@ -7,16 +7,14 @@ const placeNotification = async (req, res) => {
     const newNotification = new NotificationModel({
       userId,
       text,
-      isRead: false,
+      isRead: false
     });
 
     const savedNotification = await newNotification.save();
 
     res.status(201).json(savedNotification);
   } catch (err) {
-    res.status(500).json({
-      message: `Oops! An internal server error occurred. ${err.message}`,
-    });
+    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 

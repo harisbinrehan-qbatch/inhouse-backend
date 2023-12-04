@@ -26,8 +26,8 @@ const SaveAddress = async (req, res) => {
         userId,
         addressInfo: {
           ...addressInfo,
-          isDefault: true,
-        },
+          isDefault: true
+        }
       });
 
       await newAddress.save();
@@ -35,9 +35,7 @@ const SaveAddress = async (req, res) => {
 
     res.status(201).json({ message: 'Address has been saved successfully' });
   } catch (err) {
-    res.status(500).json({
-      message: `Oops! An internal server error occurred. ${err.message}`,
-    });
+    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 

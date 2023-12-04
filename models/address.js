@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const AddressSchema = new mongoose.Schema({
   userId: {
     type: String,
-    required: true,
+    required: true
   },
   addressInfo: [
     {
@@ -14,8 +14,8 @@ const AddressSchema = new mongoose.Schema({
       city: String,
       address: String,
       isDefault: Boolean
-    },
-  ],
+    }
+  ]
 });
 
 const AddressModel = mongoose.model('addresses', AddressSchema);

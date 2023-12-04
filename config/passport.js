@@ -9,7 +9,7 @@ const ExtractJwt = jwt.ExtractJwt;
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: PASSPORT_SECRET_KEY,
+  secretOrKey: PASSPORT_SECRET_KEY
 };
 
 passport.use(

@@ -6,7 +6,7 @@ const ChargeCustomer = async ({
   email,
   stripeId,
   cardStripeId,
-  orderId,
+  orderId
 }) => {
   try {
     const charge = await stripeSecretKeyClient.charges.create({
@@ -15,9 +15,7 @@ const ChargeCustomer = async ({
       customer: stripeId,
       card: cardStripeId,
       receipt_email: email,
-      metadata: {
-        orderId: orderId,
-      },
+      metadata: {orderId}
     });
     if (charge.status === 'succeeded') {
       await OrderModel.updateOne({ orderId }, { isPaid: true });

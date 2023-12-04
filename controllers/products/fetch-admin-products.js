@@ -22,12 +22,12 @@ const FetchAdminProducts = async (req, res) => {
 
     res.status(200).json({
       products,
-      totalCount,
+      totalCount
     });
   } catch (error) {
     res.status(500).json({
       message:
-        'Internal Server Error: Oops! An internal server error occurred. Please try again later.',
+        'Internal Server Error: Oops! An internal server error occurred. Please try again later.'
     });
   }
 };

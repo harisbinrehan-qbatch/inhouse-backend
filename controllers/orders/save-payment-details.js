@@ -1,6 +1,6 @@
 import {
   stripePublishableClient,
-  stripeSecretKeyClient,
+  stripeSecretKeyClient
 } from '../../config/config';
 import userModel from '../../models/user';
 
@@ -22,23 +22,21 @@ const SavePaymentDetails = async (req, res) => {
         number,
         exp_month,
         exp_year,
-        cvc: 123,
-      },
+        cvc: 123
+      }
     });
 
     await stripeSecretKeyClient.customers.createSource(stripeId, {
       source: card.id,
       metadata: {
         cardNumber: paymentDetails.cardNumber,
-        userStripeId: stripeId,
-      },
+        userStripeId: stripeId
+      }
     });
 
     return res.status(201).json('Payment details saved successfully');
   } catch (err) {
-    res.status(500).json({
-      message: `Oops! An internal server error occurred. ${err.message}`,
-    });
+    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 

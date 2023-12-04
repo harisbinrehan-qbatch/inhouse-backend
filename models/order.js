@@ -6,45 +6,43 @@ const OrderSchema = new mongoose.Schema(
   {
     userId: {
       type: String,
-      required: true,
+      required: true
     },
     orderId: {
       type: String,
       required: true,
-      unique: true,
+      unique: true
     },
     username: {
       type: String,
-      required: true,
+      required: true
     },
     products: {
       type: Array,
-      required: true,
+      required: true
     },
     totalProducts: {
       type: String,
-      required: true,
+      required: true
     },
     total: {
       type: String,
-      required: true,
+      required: true
     },
     isPaid: {
       type: Boolean,
-      default: false,
+      default: false
     },
     isDelivered: {
       type: Boolean,
-      default: false,
+      default: false
     },
     date: {
       type: Date,
-      default: Date.now,
-    },
+      default: Date.now
+    }
   },
-  {
-    timestamps: true,
-  }
+  {timestamps: true}
 );
 
 OrderSchema.index({ orderId: 'text' }, { name: 'text_index' });

@@ -6,7 +6,7 @@ import {
   SignIn,
   SignUp,
   ForgotPassword,
-  VerifyUser,
+  VerifyUser
 } from '../controllers/auth';
 
 const router = express.Router();

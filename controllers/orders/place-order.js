@@ -14,7 +14,7 @@ const PlaceOrder = async (req, res) => {
       cardStripeId,
       userId,
       products,
-      totalAmount,
+      totalAmount
     } = req.body;
 
     const orderId = generateOrderId();
@@ -25,7 +25,7 @@ const PlaceOrder = async (req, res) => {
       userId,
       products,
       totalProducts: products.length,
-      total: totalAmount,
+      total: totalAmount
     });
 
     const updateProductPromises = products.map(async (product) => {
@@ -56,21 +56,21 @@ const PlaceOrder = async (req, res) => {
       stripeId,
       cardStripeId,
       orderId,
-      cvc: 123,
+      cvc: 123
     });
 
     const adminNotification = new NotificationModel({
       userId,
       text: `Order# ${orderId} has been placed`,
       isRead: false,
-      forAdmin: true,
+      forAdmin: true
     });
 
     const userNotification = new NotificationModel({
       userId,
       text: `Order# ${orderId} has been placed`,
       isRead: false,
-      forAdmin: false,
+      forAdmin: false
     });
 
     await userNotification.save();
@@ -79,9 +79,7 @@ const PlaceOrder = async (req, res) => {
 
     res.status(201).json({ message: 'Order placed successfully', orderId });
   } catch (err) {
-    res.status(500).json({
-      message: `Oops! An internal server error occurred. ${err.message}`,
-    });
+    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 

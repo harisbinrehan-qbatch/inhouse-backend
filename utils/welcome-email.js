@@ -9,8 +9,8 @@ const sendWelcomeEmail = async (email, token) => {
       secure: false,
       auth: {
         user: 'harisbinrehan@gmail.com',
-        pass: 'sioj kqua nzey ybqu',
-      },
+        pass: 'sioj kqua nzey ybqu'
+      }
     });
 
     const info = await transporter.sendMail({
@@ -24,7 +24,7 @@ const sendWelcomeEmail = async (email, token) => {
         <p> <a href='http://localhost:3000/auth/verifyUser?token=${token}'>Verify</a></p>
       <p>If you did not create an account on <b>Q-commerce</b>, you can ignore this email.</p>
         <p>Feel free to explore our website and let us know if you have any questions. Thank You!</p>
-      `,
+      `
     });
 
     console.log('Message sent: %s', info.messageId);
