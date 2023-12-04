@@ -7,16 +7,13 @@ import { GenerateToken } from '../../middlewares/auth';
 const SignUp = async (req, res) => {
   try {
     const {
-      username,
-      email,
-      password,
-      mobile
-    } = req.body;
+ username, email, password, mobile
+} = req.body;
 
     if (!username || !password || !email) {
       return res
         .status(400)
-        .json({message: 'Bad Request: Username, email, and password cannot be empty'});
+        .json({ message: 'Bad Request: Username, email, and password cannot be empty' });
     }
 
     const existingUserWithEmail = await userModel.findOne({ email });
@@ -53,7 +50,9 @@ const SignUp = async (req, res) => {
 
     res.status(201).json({ message: 'Created: User created successfully' });
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 

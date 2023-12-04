@@ -6,7 +6,7 @@ const ResetPassword = async (req, res) => {
   try {
     const email = req.user.email || '';
 
-    const {newPassword} = req.body;
+    const { newPassword } = req.body;
 
     const user = await userModel.findOne({ email });
 
@@ -31,7 +31,9 @@ const ResetPassword = async (req, res) => {
 
     res.status(200).json({ message: 'Success: Password reset successfully' });
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 

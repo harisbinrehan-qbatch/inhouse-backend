@@ -80,7 +80,9 @@ const PlaceOrder = async (req, res) => {
 
     res.status(201).json({ message: 'Order placed successfully', orderId });
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 

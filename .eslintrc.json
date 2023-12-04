@@ -33,6 +33,7 @@
     "no-multiple-empty-lines": ["error", { "max": 1 }],
     "no-useless-rename": "error",
     "comma-spacing": ["error", { "before": false, "after": true }],
+    "object-curly-spacing": ["error", "always"],
     "object-curly-newline": [
       "error",
       {

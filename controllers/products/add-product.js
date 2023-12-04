@@ -11,12 +11,8 @@ const AddProduct = async (req, res) => {
     }
 
     const {
-      name,
-      size,
-      color,
-      price,
-      quantity
-    } = req.body.obj;
+ name, size, color, price, quantity
+} = req.body.obj;
 
     if (!name || !size || !color || !price || !quantity) {
       return res
@@ -33,7 +29,7 @@ const AddProduct = async (req, res) => {
     if (quantity < 0 || quantity % 1 !== 0) {
       return res
         .status(400)
-        .json({message: 'Bad Request: Quantity must be a non-negative integer'});
+        .json({ message: 'Bad Request: Quantity must be a non-negative integer' });
     }
 
     if (req.files && Array.isArray(req.files)) {
@@ -57,7 +53,9 @@ const AddProduct = async (req, res) => {
 
     res.status(201).json({ message: 'Created: Product added successfully' });
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 

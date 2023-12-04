@@ -15,7 +15,7 @@ const ChargeCustomer = async ({
       customer: stripeId,
       card: cardStripeId,
       receipt_email: email,
-      metadata: {orderId}
+      metadata: { orderId }
     });
     if (charge.status === 'succeeded') {
       await OrderModel.updateOne({ orderId }, { isPaid: true });

@@ -9,7 +9,7 @@ const GetPaymentDetails = async (req, res) => {
 
     const cards = await stripeSecretKeyClient.customers.listSources(
       user.stripeId,
-      {object: 'card'}
+      { object: 'card' }
     );
 
     const allPaymentMethods = cards.data.map((card) => ({
@@ -23,7 +23,9 @@ const GetPaymentDetails = async (req, res) => {
 
     res.status(200).json({ allPaymentMethods });
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 

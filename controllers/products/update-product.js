@@ -4,8 +4,8 @@ import productModel from '../../models/product';
 
 const UpdateProduct = async (req, res) => {
   try {
-    const { _id, ...productData } = req.body.obj;
-
+    const { _id, deletedImages, ...productData } = req.body.obj;
+    console.log({ deletedImages });
     const images = [];
 
     const existingProduct = await productModel.findById(_id);
@@ -42,22 +42,26 @@ const UpdateProduct = async (req, res) => {
       });
     }
 
-    if (req.files.length) {
-      existingProduct.images.forEach((img)=>{
+    if (deletedImages?.length) {
+      deletedImages.forEach((img) => {
         const filePath = `uploads/${img}`;
         fs.unlink(filePath, (err) => {
           if (err) {
             console.error(`\n\n Error Deleting File: ${img}`);
           }
         });
-      })
-      images.forEach(singleImage => {
-        if(typeof singleImage !== 'string') {
-
-          existingProduct.images.push(singleImage);
-        }
-      })
+      });
     }
+    console.log('hey')
+    console.log({ images });
+
+    existingProduct.images.forEach((img)=>{
+      if(!deletedImages?.includes(img)){
+        images.push(img)
+      }
+    })
+    console.log({ images });
+    existingProduct.images=images;
 
     await existingProduct.save();
 
@@ -68,7 +72,9 @@ const UpdateProduct = async (req, res) => {
       products: allProducts
     });
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 

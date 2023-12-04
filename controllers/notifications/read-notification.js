@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 import NotificationModel from '../../models/notification';
 
-const readNotification = async (req, res) => {
+const ReadNotification = async (req, res) => {
   try {
     const { notificationId } = req.body;
 
@@ -22,8 +22,10 @@ const readNotification = async (req, res) => {
 
     res.status(200).json(updatedNotification);
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 
-export default readNotification;
+export default ReadNotification;

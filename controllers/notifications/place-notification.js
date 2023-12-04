@@ -1,6 +1,6 @@
 import NotificationModel from '../../models/notification';
 
-const placeNotification = async (req, res) => {
+const PlaceNotification = async (req, res) => {
   try {
     const { userId, text } = req.body;
 
@@ -14,8 +14,10 @@ const placeNotification = async (req, res) => {
 
     res.status(201).json(savedNotification);
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 
-export default placeNotification;
+export default PlaceNotification;

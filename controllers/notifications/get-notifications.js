@@ -1,6 +1,6 @@
 import NotificationModel from '../../models/notification';
 
-const getNotifications = async (req, res) => {
+const GetNotifications = async (req, res) => {
   try {
     const notifications = await NotificationModel.find();
 
@@ -10,8 +10,10 @@ const getNotifications = async (req, res) => {
 
     res.status(200).json(notifications);
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 
-export default getNotifications;
+export default GetNotifications;

@@ -35,7 +35,9 @@ const SetOrderAsDelivered = async (req, res) => {
       order: updatedOrder
     });
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 

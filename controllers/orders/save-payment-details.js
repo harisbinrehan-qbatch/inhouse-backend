@@ -36,7 +36,9 @@ const SavePaymentDetails = async (req, res) => {
 
     return res.status(201).json('Payment details saved successfully');
   } catch (err) {
-    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res
+      .status(500)
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 

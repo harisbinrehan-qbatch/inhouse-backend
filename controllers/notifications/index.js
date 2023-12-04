@@ -1,4 +1,4 @@
-import getNotifications from './get-notifications'
-import readNotification from './read-notification';
+import GetNotifications from './get-notifications'
+import ReadNotification from './read-notification';
 
-export { getNotifications, readNotification };
+export { GetNotifications, ReadNotification };

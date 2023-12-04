@@ -24,7 +24,7 @@ const FetchAdminProducts = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({message: `Oops! An internal server error occurred. ${err.message}`});
+      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
 };
 
