@@ -1,6 +1,7 @@
 
 import express from 'express';
 import passport from 'passport';
+
 import { getNotifications, readNotification } from '../controllers/notifications';
 
 const router = express.Router();
@@ -15,6 +16,5 @@ router.put(
   passport.authenticate('jwt', { session: false }),
   readNotification
 );
-
 
 export default router;

@@ -10,9 +10,7 @@ const VerifyUser = async (req, res) => {
       return res.status(404).json({ message: 'Not Found: User not found' });
     } else {
       if (user.isValidUser) {
-        return res
-          .status(200)
-          .json({ message: 'Success: User is already verified' });
+        return res.status(200).json({ message: 'Success: User is already verified' });
       }
 
       await userModel.updateOne({ email }, { $set: { isValidUser: true } });

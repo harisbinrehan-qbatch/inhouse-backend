@@ -1,6 +1,12 @@
 import express from 'express';
 import passport from 'passport';
 
+import saveAddress from '../controllers/orders/save-address';
+import UpdateDefaultAddress from '../controllers/orders/update-default-address';
+import SavePaymentDetails from '../controllers/orders/save-payment-details';
+import GetAllOrders from '../controllers/orders/get-orders';
+import SetOrderAsDelivered from '../controllers/orders/set-isDelivered';
+import GetAdminOrderStats from '../controllers/orders/get-admin-order-stats';
 import {
   DeletePaymentDetails,
   EditPaymentDetails,
@@ -8,14 +14,8 @@ import {
   GetOrderStats,
   GetPaymentDetails,
   GetUserOrders,
-  PlaceOrder,
+  PlaceOrder
 } from '../controllers/orders';
-import saveAddress from '../controllers/orders/save-address';
-import UpdateDefaultAddress from '../controllers/orders/update-default-address';
-import SavePaymentDetails from '../controllers/orders/save-payment-details';
-import GetAllOrders from '../controllers/orders/get-orders';
-import SetOrderAsDelivered from '../controllers/orders/set-isDelivered';
-import GetAdminOrderStats from '../controllers/orders/get-admin-order-stats';
 
 const router = express.Router();
 
@@ -96,8 +96,5 @@ router.delete(
   passport.authenticate('jwt', { session: false }),
   DeletePaymentDetails
 );
-
-
-
 
 export default router;

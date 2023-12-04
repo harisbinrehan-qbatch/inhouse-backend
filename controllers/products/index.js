@@ -13,5 +13,5 @@ export {
   DeleteProduct,
   UpdateProduct,
   SearchProducts,
-  AddBulkProducts,
+  AddBulkProducts
 };

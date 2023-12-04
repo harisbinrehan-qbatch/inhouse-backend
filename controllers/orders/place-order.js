@@ -36,6 +36,7 @@ const PlaceOrder = async (req, res) => {
           const newQuantity = existingProduct.quantity - product.quantity;
 
           existingProduct.sold += product.quantity;
+
           existingProduct.quantity = newQuantity;
 
           await existingProduct.save();

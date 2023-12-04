@@ -20,10 +20,7 @@ const FetchAdminProducts = async (req, res) => {
       .limit(limitValue)
       .skip(skipValue);
 
-    res.status(200).json({
-      products,
-      totalCount
-    });
+    res.status(200).json({ products, totalCount });
   } catch (err) {
     res
       .status(500)

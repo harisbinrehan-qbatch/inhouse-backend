@@ -24,9 +24,16 @@ export const SignIn = async (req, res) => {
 
     if (isPasswordValid) {
       const {
- username, _id, stripeId, email, mobile, isAdmin
-} = user;
+        username,
+        _id,
+        stripeId,
+        email,
+        mobile,
+        isAdmin
+      } = user;
+
       const token = GenerateToken(email);
+
       return res.status(200).json({
         username,
         userId: _id,

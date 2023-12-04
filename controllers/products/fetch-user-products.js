@@ -55,14 +55,9 @@ const FetchUserProducts = async (req, res) => {
       .limit(limitValue)
       .skip(skipValue);
 
-    res.status(200).json({
-      products,
-      totalCount
-    });
+    res.status(200).json({ products, totalCount });
   } catch (err) {
-    res
-      .status(500)
-      .json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 

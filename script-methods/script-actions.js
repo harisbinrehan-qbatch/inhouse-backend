@@ -1,13 +1,13 @@
 import ScriptMethods from './utils/script-methods';
 
 const ScriptActions = async (req, res) => {
- try {
+  try {
     const { query } = req;
     const { method, ...rest } = query;
 
     await ScriptMethods({
       method,
-      ...rest,
+      ...rest
     });
 
     res.send('OK');

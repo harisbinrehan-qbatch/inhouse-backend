@@ -7,8 +7,11 @@ import { GenerateToken } from '../../middlewares/auth';
 const SignUp = async (req, res) => {
   try {
     const {
- username, email, password, mobile
-} = req.body;
+      username,
+      email,
+      password,
+      mobile
+    } = req.body;
 
     if (!username || !password || !email) {
       return res
@@ -25,6 +28,7 @@ const SignUp = async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(10);
+
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new userModel({
@@ -40,7 +44,9 @@ const SignUp = async (req, res) => {
     });
 
     newUser.stripeId = stripe.id;
+
     const token = GenerateToken(email);
+
     await sendWelcomeEmail(email, token);
 
     await newUser.save();

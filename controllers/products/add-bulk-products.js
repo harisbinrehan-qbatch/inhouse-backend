@@ -3,9 +3,13 @@ import ProductModel from '../../models/product';
 const AddBulkProducts = async (req, res) => {
   try {
     const productsData = req.body.bulkProducts;
+
     const errorArr = [];
+
     let writeData = [];
+
     let successfulUploads = 0;
+
     let failedUploads = 0;
 
     for (let i = 0; i < productsData.length - 1; i += 1) {
@@ -100,13 +104,9 @@ const AddBulkProducts = async (req, res) => {
       failedUploads
     };
 
-    return res
-      .status(201)
-      .json({ message: 'Created: Bulk upload completed', bulkUploadResult });
+    return res.status(201).json({ message: 'Created: Bulk upload completed', bulkUploadResult });
   } catch (err) {
-    res
-      .status(500)
-      .json({message: `Oops! An internal server error occurred. ${err.message}`});
+    res.status(500).json({message: `Oops! An internal server error occurred. ${err.message}`});
   }
 };
 

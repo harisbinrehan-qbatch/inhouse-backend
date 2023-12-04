@@ -5,7 +5,8 @@ import userModel from '../../models/user';
 const ResetPassword = async (req, res) => {
   try {
     const email = req.user.email || '';
-    const newPassword = req.body.newPassword;
+
+    const {newPassword} = req.body;
 
     const user = await userModel.findOne({ email });
 
@@ -20,6 +21,7 @@ const ResetPassword = async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(10);
+
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
     await UserSchema.updateOne(
