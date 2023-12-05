@@ -6,7 +6,8 @@ import {
   SignIn,
   SignUp,
   ForgotPassword,
-  VerifyUser
+  VerifyUser,
+  VerifyToken
 } from '../controllers/auth';
 
 const router = express.Router();
@@ -27,6 +28,12 @@ router.post(
   '/verifyUser',
   passport.authenticate('jwt', { session: false }),
   VerifyUser
+);
+
+router.post(
+  '/verifyToken',
+  passport.authenticate('jwt', { session: false }),
+  VerifyToken
 );
 
 export default router;
