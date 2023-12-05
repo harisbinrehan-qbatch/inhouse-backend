@@ -5,7 +5,7 @@ import productModel from '../../models/product';
 const UpdateProduct = async (req, res) => {
   try {
     const { _id, deletedImages, ...productData } = req.body.obj;
-    console.log({ deletedImages });
+
     const images = [];
 
     const existingProduct = await productModel.findById(_id);
@@ -52,16 +52,14 @@ const UpdateProduct = async (req, res) => {
         });
       });
     }
-    console.log('hey')
-    console.log({ images });
 
-    existingProduct.images.forEach((img)=>{
-      if(!deletedImages?.includes(img)){
-        images.push(img)
+    existingProduct.images.forEach((img) => {
+      if (!deletedImages?.includes(img)) {
+        images.push(img);
       }
-    })
-    console.log({ images });
-    existingProduct.images=images;
+    });
+
+    existingProduct.images = images;
 
     await existingProduct.save();
 

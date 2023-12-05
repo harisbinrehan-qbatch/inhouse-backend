@@ -13,7 +13,7 @@ const sendResetEmail = async (email, token) => {
       }
     });
 
-    const info = await transporter.sendMail({
+    await transporter.sendMail({
       from: 'harisbinrehan@gmail.com',
       to: email,
       subject: 'Reset Password',
@@ -26,7 +26,6 @@ const sendResetEmail = async (email, token) => {
       <p>Thank you.</p>
     `
     });
-    console.log('Message sent: %s', info.messageId);
   } catch (error) {
     console.error('Error sending welcome email:', error);
   }

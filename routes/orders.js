@@ -20,39 +20,39 @@ import {
 const router = express.Router();
 
 router.post(
-  '/placeOrder',
+  '/order',
   passport.authenticate('jwt', { session: false }),
   PlaceOrder
 );
 
-router.post(
-  '/saveAddress',
-  passport.authenticate('jwt', { session: false }),
-  saveAddress
-);
-
 router.get(
-  '/getAddresses',
-  passport.authenticate('jwt', { session: false }),
-  GetAddress
-);
-
-router.put(
-  '/updateDefaultAddress',
-  passport.authenticate('jwt', { session: false }),
-  UpdateDefaultAddress
-);
-
-router.get(
-  '/getOrders',
+  '/orders',
   passport.authenticate('jwt', { session: false }),
   GetAllOrders
 );
 
 router.get(
-  '/getUserOrders',
+  '/userOrders',
   passport.authenticate('jwt', { session: false }),
   GetUserOrders
+);
+
+router.post(
+  '/address',
+  passport.authenticate('jwt', { session: false }),
+  saveAddress
+);
+
+router.get(
+  '/address',
+  passport.authenticate('jwt', { session: false }),
+  GetAddress
+);
+
+router.put(
+  '/address',
+  passport.authenticate('jwt', { session: false }),
+  UpdateDefaultAddress
 );
 
 router.put(
@@ -62,13 +62,13 @@ router.put(
 );
 
 router.get(
-  '/getOrderStats',
+  '/dashboardStats',
   passport.authenticate('jwt', { session: false }),
   GetOrderStats
 );
 
 router.get(
-  '/getAdminOrderStats',
+  '/stats',
   passport.authenticate('jwt', { session: false }),
   GetAdminOrderStats
 );

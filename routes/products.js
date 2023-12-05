@@ -15,36 +15,36 @@ const router = express.Router();
 
 const upload = multerConfig();
 
-router.get('/fetchUserProducts', FetchUserProducts);
+router.get('/userProducts', FetchUserProducts);
 
 router.get(
-  '/fetchAdminProducts',
+  '/adminProducts',
   passport.authenticate('jwt', { session: false }),
   FetchAdminProducts
 );
 
 router.post(
-  '/addProduct',
+  '/product',
   passport.authenticate('jwt', { session: false }),
   upload.any(),
   AddProduct
 );
 
 router.post(
-  '/addBulkProducts',
+  '/bulkProducts',
   passport.authenticate('jwt', { session: false }),
   upload.any(),
   AddBulkProducts
 );
 
 router.delete(
-  '/deleteProduct',
+  '/product',
   passport.authenticate('jwt', { session: false }),
   DeleteProduct
 );
 
 router.put(
-  '/updateProduct',
+  '/product',
   passport.authenticate('jwt', { session: false }),
   upload.any(),
   UpdateProduct

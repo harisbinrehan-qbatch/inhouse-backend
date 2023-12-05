@@ -5,12 +5,12 @@ import { GetNotifications, ReadNotification } from '../controllers/notifications
 const router = express.Router();
 
 router.get(
-  '/getNotifications',
+  '/notifications',
   passport.authenticate('jwt', { session: false }),
   GetNotifications
 );
 router.put(
-  '/readNotification',
+  '/notifications',
   passport.authenticate('jwt', { session: false }),
   ReadNotification
 );
