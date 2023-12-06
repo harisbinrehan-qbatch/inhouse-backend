@@ -1,14 +1,12 @@
-import OrderModel from '../../../models/order';
+import Order from '../../../models/order';
 
 const SetStatusPaidOnChargeCustomer = async (req) => {
-
   const { orderId } = req.body.data.object.metadata;
 
-  await OrderModel.updateOne(
-      { orderId: orderId },
-      { $set: { isPaid: true } }
-    );
-
+  await Order.updateOne(
+    { orderId },
+    { $set: { isPaid: true } }
+  );
 };
 
 export default SetStatusPaidOnChargeCustomer;

@@ -1,18 +1,18 @@
-import NotificationModel from '../../models/notification';
+import Notification from '../../models/notification';
 
 const GetNotifications = async (req, res) => {
   try {
-    const notifications = await NotificationModel.find();
+    const notifications = await Notification.find();
 
     if (notifications.length === 0) {
       return res.status(404).json({ error: 'No notifications found' });
     }
 
-    res.status(200).json(notifications);
+    return res.status(200).json(notifications);
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
+      .json({ message: `Internal server error: ${err.message}` });
   }
 };
 

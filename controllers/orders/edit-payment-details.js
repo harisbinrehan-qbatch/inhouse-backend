@@ -2,7 +2,9 @@ import { stripeSecretKeyClient } from '../../config/config';
 
 const EditPaymentDetails = async (req, res) => {
   try {
-    const { userStripeId, cardStripeId, paymentDetails } = req.body;
+    const {
+      userStripeId, cardStripeId, paymentDetails
+    } = req.body;
 
     await stripeSecretKeyClient.customers.updateSource(
       userStripeId,
@@ -13,11 +15,11 @@ const EditPaymentDetails = async (req, res) => {
       }
     );
 
-    res.status(200).json({ message: 'Payment details updated successfully' });
+    return res.status(200).json({ message: 'Payment details updated successfully' });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
+      .json({ message: `Internal server error: ${err.message}` });
   }
 };
 

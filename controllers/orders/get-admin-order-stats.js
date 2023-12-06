@@ -1,12 +1,18 @@
-import OrderModel from '../../models/order';
+import Order from '../../models/order';
 
 const GetAdminOrderStats = async (req, res) => {
   try {
-    const orders = await OrderModel.find();
+    const orders = await Order.find();
 
-    const units = orders.reduce((total, order) => total + order.products.length, 0);
+    const units = orders.reduce(
+      (total, order) => total + order.products.length,
+      0
+    );
 
-    const amount = orders.reduce((total, order) => total + parseFloat(order.total), 0);
+    const amount = orders.reduce(
+      (total, order) => total + parseFloat(order.total),
+      0
+    );
 
     return res.status(200).json({
       totalOrders: orders.length,
@@ -14,9 +20,9 @@ const GetAdminOrderStats = async (req, res) => {
       totalAmount: amount
     });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
+      .json({ message: `Internal server error: ${err.message}` });
   }
 };
 

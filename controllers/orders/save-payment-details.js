@@ -2,20 +2,28 @@ import {
   stripePublishableClient,
   stripeSecretKeyClient
 } from '../../config/config';
-import userModel from '../../models/user';
+import User from '../../models/user';
 
 const SavePaymentDetails = async (req, res) => {
   try {
-    const { userId, paymentDetails } = req.body;
+    const {
+      userId,
+      paymentDetails
+    } = req.body;
 
-    const response = await userModel.findOne(
+    const response = await User.findOne(
       { _id: userId },
-      { stripeId: 1, _id: 0 }
+      {
+        stripeId: 1,
+        _id: 0
+      }
     );
 
     const { stripeId } = response;
 
-    const { number, exp_month, exp_year } = paymentDetails;
+    const {
+      number, exp_month, exp_year
+    } = paymentDetails;
 
     const card = await stripePublishableClient.tokens.create({
       card: {
@@ -36,7 +44,7 @@ const SavePaymentDetails = async (req, res) => {
 
     return res.status(201).json('Payment details saved successfully');
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }

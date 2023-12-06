@@ -1,10 +1,10 @@
-import AddressModel from '../../models/address';
+import Address from '../../models/address';
 
 const GetAddress = async (req, res) => {
   try {
-    const { userId } = req.query;
+    const { userId } = req.query;// check
 
-    const addresses = await AddressModel.find({ userId });
+    const addresses = await Address.find({ userId });
 
     res.status(200).json({ addresses });
   } catch (err) {

@@ -6,11 +6,11 @@ import SavePaymentDetails from './save-payment-details';
 import GetPaymentDetails from './get-payment-details';
 import GetAllOrders from './get-orders';
 import SetOrderAsDelivered from './set-isDelivered';
-import GetOrderStats from './get-order-stats'
+import GetOrderStats from './get-order-stats';
 import GetAdminOrderStats from './get-admin-order-stats';
-import GetUserOrders from './get-user-orders'
-import EditPaymentDetails from './edit-payment-details'
-import DeletePaymentDetails from './delete-payment-details'
+import GetUserOrders from './get-user-orders';
+import EditPaymentDetails from './edit-payment-details';
+import DeletePaymentDetails from './delete-payment-details';
 
 export {
   PlaceOrder,

@@ -1,14 +1,14 @@
-import DashboardStat from '../../models/dashboard-stats';
+import DashboardStats from '../../models/dashboard-stats';
 
 const GetOrderStats = async (req, res) => {
   try {
-    const statistics = await DashboardStat.find();
+    const statistics = await DashboardStats.find();
 
-    res.status(200).json({ data: statistics });
+    return res.status(200).json({ data: statistics });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
+      .json({ message: `Internal server error: ${err.message}` });
   }
 };
 

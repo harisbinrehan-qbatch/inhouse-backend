@@ -1,14 +1,16 @@
 import fs from 'fs';
 
-import productModel from '../../models/product';
+import Product from '../../models/product';
 
 const UpdateProduct = async (req, res) => {
   try {
-    const { _id, deletedImages, ...productData } = req.body.obj;
+    const {
+      _id, deletedImages, ...productData
+    } = req.body.obj;
 
     const images = [];
 
-    const existingProduct = await productModel.findById(_id);
+    const existingProduct = await Product.findById(_id);
 
     if (!existingProduct) {
       return res.status(404).json({ message: 'Not Found: Product not found.' });
@@ -63,14 +65,14 @@ const UpdateProduct = async (req, res) => {
 
     await existingProduct.save();
 
-    const allProducts = await productModel.find({});
+    const allProducts = await Product.find({});
 
     return res.status(200).json({
       message: 'Success: Product updated successfully.',
       products: allProducts
     });
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }

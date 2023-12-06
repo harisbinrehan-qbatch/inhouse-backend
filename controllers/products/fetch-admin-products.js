@@ -1,8 +1,10 @@
-import productModel from '../../models/product';
+import Product from '../../models/product';
 
 const FetchAdminProducts = async (req, res) => {
   try {
-    const { limit, skip, filterObject } = req.query;
+    const {
+      limit, skip, filterObject
+    } = req.query;
 
     const limitValue = Number(limit) || 0;
     const skipValue = Number(skip) || 0;
@@ -13,16 +15,17 @@ const FetchAdminProducts = async (req, res) => {
       selector.name = { $regex: new RegExp(filterObject.search, 'i') };
     }
 
-    const totalCount = await productModel.countDocuments(selector);
+    const totalCount = await Product.countDocuments(selector);
 
-    const products = await productModel
-      .find(selector)
+    const products = await Product.find(selector)
       .limit(limitValue)
       .skip(skipValue);
 
-    res.status(200).json({ products, totalCount });
+    return res.status(200).json({
+      products, totalCount
+    });
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }

@@ -1,10 +1,13 @@
-import AddressModel from '../../models/address';
+import Address from '../../models/address';
 
 const SaveAddress = async (req, res) => {
   try {
-    const { userId, ...addressInfo } = req.body;
+    const {
+      userId,
+      ...addressInfo
+    } = req.body;
 
-    const existingAddress = await AddressModel.findOne({ userId });
+    const existingAddress = await Address.findOne({ userId });
 
     if (existingAddress) {
       const existingAddressInfo = existingAddress.addressInfo.find(
@@ -22,7 +25,7 @@ const SaveAddress = async (req, res) => {
         await existingAddress.save();
       }
     } else {
-      const newAddress = new AddressModel({
+      const newAddress = new Address({
         userId,
         addressInfo: {
           ...addressInfo,

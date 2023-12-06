@@ -16,7 +16,7 @@ const catchResponse = ({ res, err }) => {
 
   return res.status(statusCode).json({
     success: false,
-    error,
+    error
   });
 };
 

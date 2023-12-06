@@ -1,11 +1,11 @@
 import { stripeSecretKeyClient } from '../../config/config';
-import userModel from '../../models/user';
+import User from '../../models/user';
 
 const GetPaymentDetails = async (req, res) => {
   try {
     const { userId } = req.query;
 
-    const user = await userModel.findOne({ _id: { $in: userId } });
+    const user = await User.findOne({ _id: { $in: userId } });
 
     const cards = await stripeSecretKeyClient.customers.listSources(
       user.stripeId,
@@ -21,11 +21,11 @@ const GetPaymentDetails = async (req, res) => {
       exp_year: card.exp_year
     }));
 
-    res.status(200).json({ allPaymentMethods });
+    return res.status(200).json({ allPaymentMethods });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
+      .json({ message: `Internal server error: ${err.message}` });
   }
 };
 

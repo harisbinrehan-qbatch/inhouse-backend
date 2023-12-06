@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
-import OrderModel from '../../models/order';
-import ProductModel from '../../models/product';
-import NotificationModel from '../../models/notification';
+import Order from '../../models/order';
+import Product from '../../models/product';
+import Notification from '../../models/notification';
 import ChargeCustomer from '../stripe/utils/charge-customer';
 import generateOrderId from '../../utils/generate-order-id';
 
@@ -19,7 +18,7 @@ const PlaceOrder = async (req, res) => {
 
     const orderId = generateOrderId();
 
-    const newOrder = new OrderModel({
+    const newOrder = new Order({
       orderId,
       username,
       userId,
@@ -30,7 +29,7 @@ const PlaceOrder = async (req, res) => {
 
     const updateProductPromises = products.map(async (product) => {
       try {
-        const existingProduct = await ProductModel.findById(product._id);
+        const existingProduct = await Product.findById(product._id);
 
         if (existingProduct) {
           const newQuantity = existingProduct.quantity - product.quantity;
@@ -60,14 +59,14 @@ const PlaceOrder = async (req, res) => {
       cvc: 123
     });
 
-    const adminNotification = new NotificationModel({
+    const adminNotification = new Notification({
       userId,
       text: `Order# ${orderId} has been placed`,
       isRead: false,
       forAdmin: true
     });
 
-    const userNotification = new NotificationModel({
+    const userNotification = new Notification({
       userId,
       text: `Order# ${orderId} has been placed`,
       isRead: false,
@@ -76,11 +75,13 @@ const PlaceOrder = async (req, res) => {
 
     await userNotification.save();
 
-    const savedNotification = await adminNotification.save();
+    await adminNotification.save();
 
-    res.status(201).json({ message: 'Order placed successfully', orderId });
+    return res.status(201).json({
+      message: 'Order placed successfully', orderId
+    });
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }

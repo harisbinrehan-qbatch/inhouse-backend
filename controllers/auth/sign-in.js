@@ -1,10 +1,12 @@
 import bcrypt from 'bcrypt';
-import userModel from '../../models/user';
+import User from '../../models/user';
 import { GenerateToken } from '../../middlewares/auth';
 
 export const SignIn = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const {
+      email, password
+    } = req.body;
 
     if (!email || !password) {
       return res
@@ -12,7 +14,7 @@ export const SignIn = async (req, res) => {
         .json({ message: 'Bad Request: Email or password cannot be empty' });
     }
 
-    const user = await userModel.findOne({ email });
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ message: 'Not Found: User not found' });
@@ -28,8 +30,8 @@ export const SignIn = async (req, res) => {
 
     if (isPasswordValid) {
       const {
- username, _id, stripeId, email, mobile, isAdmin
-} = user;
+        username, _id, stripeId, mobile, isAdmin
+      } = user;
 
       const token = GenerateToken(email);
 
@@ -42,15 +44,14 @@ export const SignIn = async (req, res) => {
         mobile,
         isAdmin
       });
-    } else {
-      return res
-        .status(401)
-        .json({ message: 'Unauthorized: Invalid credentials' });
     }
+    return res
+      .status(401)
+      .json({ message: 'Unauthorized: Invalid credentials' });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
+      .json({ message: `Internal server error: ${err.message}` });
   }
 };
 

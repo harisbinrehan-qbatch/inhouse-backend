@@ -1,10 +1,13 @@
-import AddressModel from '../../models/address';
+import Address from '../../models/address';
 
 const UpdateDefaultAddress = async (req, res) => {
   try {
-    const { userId, index } = req.body;
+    const {
+      userId,
+      index
+    } = req.body;
 
-    const existingAddress = await AddressModel.findOne({ userId });
+    const existingAddress = await Address.findOne({ userId });
 
     if (existingAddress) {
       existingAddress.addressInfo.forEach((address, i) => {

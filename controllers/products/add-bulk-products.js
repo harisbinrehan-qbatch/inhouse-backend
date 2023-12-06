@@ -1,4 +1,4 @@
-import ProductModel from '../../models/product';
+import Product from '../../models/product';
 
 const AddBulkProducts = async (req, res) => {
   try {
@@ -13,8 +13,7 @@ const AddBulkProducts = async (req, res) => {
     let failedUploads = 0;
 
     for (let i = 0; i < productsData.length - 1; i += 1) {
-      const [name, size, color, price, quantity, date, images] =
-        productsData[i];
+      const [name, size, color, price, quantity, date, images] = productsData[i];
 
       const missingFields = [];
 
@@ -29,10 +28,9 @@ const AddBulkProducts = async (req, res) => {
       if (missingFields.length > 0) {
         errorArr.push({
           row: i + 2,
-          message: `Bad Request: Missing fields: ${missingFields.join(', ')}`
+          message: `Missing fields: ${missingFields.join(', ')}`
         });
         failedUploads++;
-        continue;
       }
 
       const productDate = new Date(date);
@@ -51,7 +49,6 @@ const AddBulkProducts = async (req, res) => {
             'Price should be a non-negative and can have 2 decimal places'
         });
         failedUploads++;
-        continue;
       }
 
       if (!isValidStock) {
@@ -60,7 +57,6 @@ const AddBulkProducts = async (req, res) => {
           message: 'Quantity should be a non-negative integer value'
         });
         failedUploads++;
-        continue;
       }
 
       writeData.push({
@@ -82,7 +78,7 @@ const AddBulkProducts = async (req, res) => {
 
       if (writeData.length >= 2) {
         try {
-          await ProductModel.bulkWrite(writeData);
+          Product.bulkWrite(writeData);
         } catch (err) {
           console.error('Bulk write error:', err);
         }
@@ -92,7 +88,7 @@ const AddBulkProducts = async (req, res) => {
 
     if (writeData.length) {
       try {
-        await ProductModel.bulkWrite(writeData);
+        await Product.bulkWrite(writeData);
       } catch (err) {
         console.error('Bulk write error:', err);
       }
@@ -106,9 +102,11 @@ const AddBulkProducts = async (req, res) => {
 
     return res
       .status(201)
-      .json({ message: 'Created: Bulk upload completed', bulkUploadResult });
+      .json({
+        message: 'Created: Bulk upload completed', bulkUploadResult
+      });
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }

@@ -17,8 +17,8 @@ const User = new mongoose.Schema({
     type: String,
     required: true
   },
-  image: {type: String},
-  isAdmin: {type: Boolean},
+  image: { type: String },
+  isAdmin: { type: Boolean },
   stripeId: {
     type: String,
     default: ''

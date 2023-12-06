@@ -42,10 +42,8 @@ const OrderSchema = new mongoose.Schema(
       default: Date.now
     }
   },
-  {timestamps: true}
+  { timestamps: true }
 );
-
-OrderSchema.index({ orderId: 'text' }, { name: 'text_index' });
 
 const OrderModel = mongoose.model('orders', OrderSchema);
 

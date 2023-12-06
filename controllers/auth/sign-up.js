@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import userModel from '../../models/user';
+import User from '../../models/user';
 import { stripeSecretKeyClient } from '../../config/config';
 import sendWelcomeEmail from '../../utils/welcome-email';
 import { GenerateToken } from '../../middlewares/auth';
@@ -7,8 +7,11 @@ import { GenerateToken } from '../../middlewares/auth';
 const SignUp = async (req, res) => {
   try {
     const {
- username, email, password, mobile
-} = req.body;
+      username,
+      email,
+      password,
+      mobile
+    } = req.body;
 
     if (!username || !password || !email) {
       return res
@@ -16,7 +19,7 @@ const SignUp = async (req, res) => {
         .json({ message: 'Bad Request: Username, email, and password cannot be empty' });
     }
 
-    const existingUserWithEmail = await userModel.findOne({ email });
+    const existingUserWithEmail = await User.findOne({ email });
 
     if (existingUserWithEmail) {
       return res
@@ -28,7 +31,7 @@ const SignUp = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new userModel({
+    const newUser = new User({
       username,
       email,
       password: hashedPassword,
@@ -48,9 +51,11 @@ const SignUp = async (req, res) => {
 
     await newUser.save();
 
-    res.status(201).json({ message: 'Created: User created successfully' });
+    return res
+      .status(201)
+      .json({ message: 'Created: User created successfully' });
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }

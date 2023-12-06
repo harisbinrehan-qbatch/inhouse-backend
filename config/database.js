@@ -1,4 +1,8 @@
-import { connection, connect, set } from 'mongoose';
+import {
+  connection,
+  connect,
+  set
+} from 'mongoose';
 
 import { MONGO_URL } from './config';
 
@@ -15,8 +19,6 @@ const options = {
       .then(() => {
         console.log('INFO - MongoDB Database connected.');
       })
-      .catch((err) =>
-        console.log('ERROR - Unable to connect to the database:', err)
-      );
+      .catch((err) => console.log('ERROR - Unable to connect to the database:', err));
   }
-})();
+}());

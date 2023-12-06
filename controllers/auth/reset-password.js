@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
-import UserSchema from '../../models/user';
-import userModel from '../../models/user';
+import User from '../../models/user';
 
 const ResetPassword = async (req, res) => {
   try {
@@ -8,7 +7,7 @@ const ResetPassword = async (req, res) => {
 
     const { newPassword } = req.body;
 
-    const user = await userModel.findOne({ email });
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ message: 'Not Found: User not found' });
@@ -24,16 +23,21 @@ const ResetPassword = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-    await UserSchema.updateOne(
+    await User.updateOne(
       { email },
-      { $set: { password: hashedPassword, tokenExpiry: true } }
+      {
+        $set: {
+          password: hashedPassword,
+          tokenExpiry: true
+        }
+      }
     );
 
-    res.status(200).json({ message: 'Success: Password reset successfully' });
+    return res.status(200).json({ message: 'Success: Password reset successfully' });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
+      .json({ message: `Internal server error: ${err.message}` });
   }
 };
 

@@ -1,7 +1,9 @@
-
 import express from 'express';
 import passport from 'passport';
-import { GetNotifications, ReadNotification } from '../controllers/notifications';
+import {
+  GetNotifications, ReadNotification
+} from '../controllers/notifications';
+
 const router = express.Router();
 
 router.get(

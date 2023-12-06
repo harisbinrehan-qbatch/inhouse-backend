@@ -1,10 +1,12 @@
-import NotificationModel from '../../models/notification';
+import Notification from '../../models/notification';
 
 const PlaceNotification = async (req, res) => {
   try {
-    const { userId, text } = req.body;
+    const {
+      userId, text
+    } = req.body;
 
-    const newNotification = new NotificationModel({
+    const newNotification = new Notification({
       userId,
       text,
       isRead: false
@@ -12,11 +14,11 @@ const PlaceNotification = async (req, res) => {
 
     const savedNotification = await newNotification.save();
 
-    res.status(201).json(savedNotification);
+    return res.status(201).json(savedNotification);
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
+      .json({ message: `Internal server error: ${err.message}` });
   }
 };
 

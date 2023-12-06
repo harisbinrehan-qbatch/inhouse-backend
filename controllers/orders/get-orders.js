@@ -1,8 +1,10 @@
-import OrderModel from '../../models/order';
+import Order from '../../models/order';
 
 const GetAllOrders = async (req, res) => {
   try {
-    const { limit, skip, orderId } = req.query;
+    const {
+      limit, skip, orderId
+    } = req.query;
 
     const limitValue = orderId ? undefined : Number(limit);
 
@@ -15,24 +17,24 @@ const GetAllOrders = async (req, res) => {
       query = { orderId: regex };
     }
 
-    const orders = await OrderModel.find(query)
-      .skip(skipValue)
-      .limit(limitValue);
+    const orders = await Order.find(query).skip(skipValue).limit(limitValue);
 
-    const totalCount = await OrderModel.countDocuments(query);
+    const totalCount = await Order.countDocuments(query);
 
-    if (orders.length === 0) {
+    if (!orders.length) {
       return res.status(404).json({
         message: 'No orders found.',
         searchedOrders: null
       });
     }
 
-    return res.status(200).json({ orders, totalCount });
+    return res.status(200).json({
+      orders, totalCount
+    });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ message: `Oops! An internal server error occurred. ${err.message}` });
+      .json({ message: `Internal server error: ${err.message}` });
   }
 };
 

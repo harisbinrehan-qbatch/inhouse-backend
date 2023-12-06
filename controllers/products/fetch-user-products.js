@@ -1,8 +1,10 @@
-import productModel from '../../models/product';
+import Product from '../../models/product';
 
 const FetchUserProducts = async (req, res) => {
   try {
-    const { limit, skip, filterObject } = req.query;
+    const {
+      limit, skip, filterObject
+    } = req.query;
     let limitValue = 0;
     let skipValue = 0;
     if (!filterObject) {
@@ -25,9 +27,9 @@ const FetchUserProducts = async (req, res) => {
     }
 
     if (
-      filterObject?.price &&
-      filterObject.price[0] !== 'none' &&
-      filterObject.price[1] !== 'none'
+      filterObject?.price
+      && filterObject.price[0] !== 'none'
+      && filterObject.price[1] !== 'none'
     ) {
       selector.price = {
         $gte: Number(filterObject.price[0]),
@@ -47,17 +49,18 @@ const FetchUserProducts = async (req, res) => {
       }
     }
 
-    const totalCount = await productModel.countDocuments(selector);
+    const totalCount = await Product.countDocuments(selector);
 
-    const products = await productModel
-      .find(selector)
+    const products = await Product.find(selector)
       .sort(sort)
-      .limit(limitValue)
-      .skip(skipValue);
+      .skip(skipValue)
+      .limit(limitValue);
 
-    res.status(200).json({ products, totalCount });
+    return res.status(200).json({
+      products, totalCount
+    });
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ message: `Oops! An internal server error occurred. ${err.message}` });
   }
