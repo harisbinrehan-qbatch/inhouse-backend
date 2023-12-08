@@ -11,11 +11,11 @@ const User = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: false
   },
   mobile: {
     type: String,
-    required: true
+    required: false
   },
   image: { type: String },
   isAdmin: { type: Boolean },

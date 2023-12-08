@@ -16,7 +16,7 @@ const SignUp = async (req, res) => {
     if (!username || !password || !email) {
       return res
         .status(400)
-        .json({ message: 'Bad Request: Username, email, and password cannot be empty' });
+        .json({ message: 'Username, email, and password cannot be empty' });
     }
 
     const existingUserWithEmail = await User.findOne({ email });

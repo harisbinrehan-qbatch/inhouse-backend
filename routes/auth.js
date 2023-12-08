@@ -7,7 +7,8 @@ import {
   SignUp,
   ForgotPassword,
   VerifyUser,
-  VerifyToken
+  VerifyToken,
+  GoogleSignin
 } from '../controllers/auth';
 
 const router = express.Router();
@@ -18,11 +19,9 @@ router.post('/signup', SignUp);
 
 router.post('/sendEmail', ForgotPassword);
 
-router.post(
-  '/resetPassword',
-  passport.authenticate('jwt', { session: false }),
-  ResetPassword
-);
+router.post('/resetPassword', ResetPassword);
+
+router.post('/googleSignin', GoogleSignin);
 
 router.post(
   '/verifyUser',
